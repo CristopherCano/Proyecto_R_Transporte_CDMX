@@ -79,11 +79,63 @@ barplot(week$viajes,names.arg = week$day)
 
 # Se generará una tabla con los días de la semana y el promedio de segundos de espera
 # para observar si el tráfico disminuye dependiendo del día
-week <- mutate(data, day = format(pickup_date, "%A"), date = format(pickup_date, "%Y-%m-%d"))
+week <- mutate(data, day = format(pickup_date, "%a"), date = format(pickup_date, "%Y-%m-%d"))
 week <- week %>% group_by(date,day) %>% summarise(wait_sec = sum(wait_sec))
 week <- week %>% group_by(day) %>% summarise (wait_sec = mean(wait_sec))
 week <- week[c(1, 3, 4, 5, 2, 7, 6),]
 barplot(week$wait_sec,names.arg = week$day)
+
+# *************************************************************************************
+# En esta sección se hará una regresión lineal multivariable para predecir el 
+# tiempo de espera, se especula que las variables municipio_origen, municipio_destino
+# dia_semana(se agregará) mes(se agregará), y la hora(1-12)
+
+# Todas las variables que se asumen que son significativas son categóricas, por lo tanto se 
+# tiene que hacer un tratamiento de datos previo a la realización de la regresión
+
+tmp <- c(1,1,1,1,2,2,2,2,3,3,3,3)
+# Como son muy pocas las entradas con trasnporte de Uber, esta función resume todas las
+# categorias de Ubers en una
+fun <- function(x)
+{
+  if (x %in% uNames)
+  {
+    y <- "Uber"
+  }
+  else
+  {
+    y <- x
+  }
+  y
+}
+
+lmData <- mutate(data, dia_semana = format(pickup_date, "%a"), mes = format(pickup_date,"%b"), hora = as.integer(hour(hms(as.character(factor(pickup_time))))) )
+lmData <- mutate(lmData, rango_tiempo = as.character(tmp[hora]))
+
+lmData <- select(lmData,Transporte,municipios_origen,municipios_destino,dia_semana,mes,rango_tiempo)
+lmData <- mutate(lmData, Transporte = fun(Transporte))
+
+lmData <- fastDummies::dummy_cols(lmData)
+
+
+fun <- function(x)
+{
+  if (x %in% uNames)
+  {
+    y <- "Uber"
+  }
+  else
+  {
+    y <- x
+  }
+  y
+}
+
+
+
+
+
+
 
 
 
