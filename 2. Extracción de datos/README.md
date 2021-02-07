@@ -137,7 +137,6 @@ m <- leaflet() %>%
 m
 
 ```
-![7  MAPA](https://user-images.githubusercontent.com/71915068/107133366-ed4f6880-68ac-11eb-8ebd-6b6043d078e3.PNG)
-
+![8  MAPA](https://user-images.githubusercontent.com/71915068/107133435-ad3cb580-68ad-11eb-91f3-19759088b6b1.PNG)
 
 ### Conclusión
