@@ -176,7 +176,9 @@ ggplot(data=week, aes(x=day,y=wait_sec))+
   theme_minimal()
 ```
 Resultado
+
 ![PCTABLA](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Viajes-Tr%C3%A1fico/Gr%C3%A1ficos/Tiempo%20de%20espera%20promedio%20por%20D%C3%ADa%20de%20la%20Semana.png)
+
 Comparando las dos tablas, si se puede notar un decremento en el tiempo de espera promedio en los días sábado y domingo, pero este no es tan grande en comparación con el visto en la gráfica de viajes totales por día de la semana.
 
 
