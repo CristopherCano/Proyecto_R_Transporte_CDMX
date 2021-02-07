@@ -83,7 +83,7 @@ Codigo para extrae los municipios  de ```destino```
 ```
 ![6  mun destino lat lng](https://user-images.githubusercontent.com/71915068/107133907-bf6d2280-68b2-11eb-86b3-8952d406d488.PNG)
 
-### Podemos corrovorar esta información trazando la ruta en un mapa mediante leaflet y osrmRoute
+### [Podemos corrovorar esta información trazando la ruta en un mapa mediante leaflet y osrmRoute](file:///C:/Users/Cristopher/Documents/GitHub/Proyecto_R_BEDU/2.%20Extracci%C3%B3n%20de%20datos/mapa_1.html)
 
 ```R
 library(leaflet)
@@ -203,3 +203,8 @@ write.csv(cdmx.rutas,"cdmx_rutas_municipios_save.csv")
 ![9 Tabla finalPNG](https://user-images.githubusercontent.com/71915068/107133626-ebd36f80-68af-11eb-8fd7-1523b36e8a1c.PNG)
 
 ### Conclusión
+
+- Se utilizaron las librerias ```ggplo2```, ```geonmaes```, ```leaflet``` y ```osrm``` para determinar la ubición de distintos origenes y destinos de viajes mediante transporte privado en la CDMX, para ello fue necesario utilizar la función ```GNfindNearbyPostalCodes``` y dos loops para obtener este dato para todos los origenes y destinos.
+
+- La visualización es muy sencilla con la libreria ```leaflet``` unicamente necesita la ubicación del lugar en lat/lng.
+
