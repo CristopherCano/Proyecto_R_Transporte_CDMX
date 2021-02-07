@@ -3,7 +3,7 @@
 Origen y Destino más frecuentes\
 ![OyD viajes](https://user-images.githubusercontent.com/71915068/107141306-79818000-68ed-11eb-892c-3a14ca5ff60d.png)
 
- Número de viajes por tipo de transporte
+ Número de viajes por tipo de transporte\
 ![Viajes por tipo de transporte](https://user-images.githubusercontent.com/71915068/107141339-b483b380-68ed-11eb-9a84-4768618ce766.png)
 
 Municipios origen taxis comparación
