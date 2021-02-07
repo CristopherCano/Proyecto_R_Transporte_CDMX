@@ -30,9 +30,20 @@ ubers <- data[which(data$Transporte %in% uNames),]
 ubers <- mutate(ubers, pickup_date = format(pickup_date, "%Y-%m"))
 
 tsUber <- ubers %>% group_by(pickup_date) %>% summarise(cuenta = sum(unos))
-tsUber <- ts(tsUber$cuenta, st = c(2016,8), end = c(2017,7),fr=12)
-plot(tsUber, ylab = "Viajes", xlab = "Tiempo")
+tsUber <- mutate(tsUber, date = as.Date(paste(pickup_date,"-1",sep=""),"%Y-%m-%d"))
+#tsUber <- ts(tsUber$cuenta, st = c(2016,8), end = c(2017,7),fr=12)
+ggplot(tsUber, aes(date,cuenta))+
+  geom_line()+
+  theme_minimal()+
+  labs(title = "Viajes Por Mes - Uber",
+        subtitle = "Junio 2016 - Julio 2017",
+        x="Fecha",
+        y="Viajes")
+  
 
+tsUber <- ts(tsUber$cuenta, st = c(2016,8), end = c(2017,7),fr=12)
+ts.decomposed <- decompose(tsUber)
+plot (ts.decomposed)
 
 # Serie del tiempo de viajes diarios por todos los transportes
 # Se espera ver una tendencia a la alsa.
@@ -40,8 +51,15 @@ taxis <- data[which(data$Transporte %in% tNames),]
 tsData <- mutate(taxis, pickup_date = format(pickup_date, "%Y-%m-%d"))
 
 tsData <- tsData %>% group_by(pickup_date) %>% summarise(cuenta = sum(unos))
-tsData <- ts(tsData$cuenta, st = c(2016,250), fr = 365)
-plot(tsData, ylab = "Viajes", xlab = "Tiempo")
+tsData <- mutate(tsData, date = as.Date(pickup_date,"%Y-%m-%d"))
+#tsData <- ts(tsData$cuenta, st = c(2016,250), fr = 365)
+ggplot(tsData,aes(date,cuenta))+
+  geom_line()+
+  theme_minimal()+
+  labs(title = "Viajes Por Día - Taxis",
+       subtitle = "Junio 2016 - Julio 2017",
+       x="Fecha",
+       y="Viajes")
 
 
 
@@ -54,8 +72,15 @@ plot(tsData, ylab = "Viajes", xlab = "Tiempo")
 # por eso se toma como una medida del tráfico
 
 tsUber <- ubers %>% group_by(pickup_date) %>% summarise(wait_sec = mean(wait_sec))
-tsUber <- ts(tsUber$wait_sec, st = c(2016,8), end = c(2017,7),fr=12)
-plot(tsUber, ylab = "Promedio de segundos parado", xlab = "Tiempo")
+tsUber <- mutate(tsUber, date = as.Date(paste(pickup_date,"-1",sep=""),"%Y-%m-%d"))
+#tsUber <- ts(tsUber$wait_sec, st = c(2016,8), end = c(2017,7),fr=12)
+ggplot(tsUber, aes(date,wait_sec))+
+  geom_line()+
+  theme_minimal()+
+  labs(title = "Tiempo de Espera - Uber",
+       subtitle = "Junio 2016 - Julio 2017",
+       x="Fecha",
+       y="Segundos por Día")
 
 # En la gráfica se ve una grán disminución del tiempo de espera durante el viaje,
 # Especulamos que esto se deba a un cambio en el sistema que calcula la mejor ruta
@@ -67,25 +92,45 @@ plot(tsUber, ylab = "Promedio de segundos parado", xlab = "Tiempo")
 tsData <- mutate(taxis, pickup_date = format(pickup_date, "%Y-%m-%d"))
 
 tsData <- tsData %>% group_by(pickup_date) %>% summarise(wait_sec = mean(wait_sec))
-tsData <- ts(tsData$wait_sec, st = c(2016,175), fr = 365)
-plot(tsData, ylab = "Promedio de segundos parado", xlab = "Tiempo")
+tsData <- mutate(tsData, date = as.Date(pickup_date,"%Y-%m-%d"))
+#tsData <- ts(tsData$wait_sec, st = c(2016,175), fr = 365)
+ggplot(tsData,aes(date,wait_sec))+
+  geom_line()+
+  theme_minimal()+
+  labs(title = "Tiempo de Espera - Taxis",
+       subtitle = "Junio 2016 - Julio 2017",
+       x="Segundos por Día",
+       y="Viajes")
 
 # Se generará una tabla con los dias de la semana para si estos afectan en el 
 # número de viajes realizados por dia
 
 week <- mutate(data, day = format(pickup_date, "%a"), date = format(pickup_date, "%Y-%m-%d"))
 week <- week %>% group_by(date,day) %>% summarise(cuenta = sum(unos))
-week <- week %>% group_by(day) %>% summarise (viajes = mean(cuenta))
-week <- week[c(1, 3, 4, 5, 2, 7, 6),]
-barplot(week$viajes,names.arg = week$day)
+week <- week %>% group_by(day) %>% summarise (viajes = sum(cuenta))
+week$day <- factor(week$day,levels=c("dom.","lun.","mar.","mié.","jue.","vie.","sáb."))
+#barplot(week$viajes,names.arg = week$day)
+ggplot(data=week, aes(x=day,y=viajes))+
+  geom_bar(stat = 'identity', fill = "Steelblue")+
+  labs(title = "Viajes totales por Día de la Semana",
+       subtitle = "",
+       x="Día",
+       y="Viejes")+
+  theme_minimal()
 
 # Se generará una tabla con los días de la semana y el promedio de segundos de espera
 # para observar si el tráfico disminuye dependiendo del día
 week <- mutate(data, day = format(pickup_date, "%a"), date = format(pickup_date, "%Y-%m-%d"))
-week <- week %>% group_by(date,day) %>% summarise(wait_sec = sum(wait_sec))
+week <- week %>% group_by(date,day) %>% summarise(wait_sec = mean(wait_sec))
 week <- week %>% group_by(day) %>% summarise (wait_sec = mean(wait_sec))
-week <- week[c(1, 3, 4, 5, 2, 7, 6),]
-barplot(week$wait_sec,names.arg = week$day)
+week$day <- factor(week$day,levels=c("dom.","lun.","mar.","mié.","jue.","vie.","sáb."))
+ggplot(data=week, aes(x=day,y=wait_sec))+
+  geom_bar(stat = 'identity', fill = "Steelblue")+
+  labs(title = "Tiempo de espera promedio por Día de la Semana",
+       subtitle = "",
+       x="Día",
+       y="Tiempo de Espera")+
+  theme_minimal()
 
 # *************************************************************************************
 # En esta sección se hará una regresión lineal multivariable para observar si se puede predecir el 
