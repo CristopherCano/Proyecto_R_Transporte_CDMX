@@ -5,9 +5,9 @@ library(dplyr)
 
 
 ### Cargamos la base de datos
-cdmx.rutas <- read.csv("cdmx_transporte_raw.csv")
+cdmx.rutas <- read.csv("cdmx_transporte_raw.csv",stringsAsFactors=T)
 
-### Vemos la información de la base de datos
+### Vemos la informaciÃ³n de la base de datos
 head(cdmx.rutas); tail(cdmx.rutas); summary(cdmx.rutas); dim(cdmx.rutas);
 
 ### Seleccionamos los orgines y destino
@@ -18,7 +18,7 @@ head(origen)
 
 ### Destino
 destino <- cdmx.rutas[,c("dropoff_longitude","dropoff_latitude")]
-head(Destino)
+head(destino)
 
 ### Mediante GNfindNearbyPostalCodes realizamos una prueba para obter el municipio
 ### Para utilizar geonames creamos una cuenta previamente
@@ -29,6 +29,7 @@ options(geonamesUsername="cristophercano")
 
 ### Almacenamos solo el nombre del municipio de origen
 (nombre.mun.o <- mun.origen.1$adminName2)
+
 
 ##La variable que nos devuelve es adminName2
 (paste("municipio de origen: ",nombre.mun.o))
@@ -42,9 +43,12 @@ options(geonamesUsername="cristophercano")
 ##La variable que nos devuelve es adminName2
 (paste("municipio de destino: ",nombre.mun.d))
 
-### Podemos corrovorar esta información trazando la ruta en un mapa mediante leaflet y osrmRoute
+
+### Podemos corrovorar esta informaciÃ³n trazando la ruta en un mapa mediante leaflet y osrmRoute
 library(leaflet)
 library(osrm)
+library(sf)
+
 
 a <- c(origen[1,1],origen[1,2])
 b <- c(destino[1,1],destino[1,2])
@@ -61,7 +65,7 @@ plot(st_geometry(r), add = TRUE)
 mapa_municipios <- st_read("https://github.com/JuveCampos/Shapes_Resiliencia_CDMX_CIDE/raw/master/Zona%20Metropolitana/EdosZM.geojson", quiet = T) %>% 
   filter(CVE_ENT == "09")
 
-# Mapa de la entidad de la Ciudad de México
+# Mapa de la entidad de la Ciudad de MÃ©xico
 mapa_cdmx <- st_read("https://github.com/JuveCampos/Shapes_Resiliencia_CDMX_CIDE/raw/master/Zona%20Metropolitana/EstadosZMVM.geojson", quiet = T)[3,]
 
 
@@ -91,7 +95,7 @@ m
 
 
 
-### El condigo siguiente nos ayudo a realizar la tarea anterior pero aplicandolo a los más de 16,000 datos
+### El condigo siguiente nos ayudo a realizar la tarea anterior pero aplicandolo a los mÃ¡s de 16,000 datos
 
 
 # Initialize the data frame
@@ -151,3 +155,5 @@ head(cdmx.rutas$municipios_destino[idx])
 
 # Guardamos los resultados 
 write.csv(cdmx.rutas,"cdmx_rutas_municipios_save.csv")
+
+cdmx.rutas<-read.csv("cdmx_rutas_municipios_save.csv")

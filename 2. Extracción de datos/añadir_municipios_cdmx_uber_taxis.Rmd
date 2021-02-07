@@ -1,0 +1,73 @@
+---
+title: "añadir_nunicipios_cdmx_uber_taxis"
+author: "Cristopher"
+date: "6/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, echo=FALSE,results='asis',warning=FALSE}
+library(kableExtra)
+library(knitr)
+
+### Cargamos las librerias 
+library(geonames) ### Geonames es una libreria de libre acceso y requiere crear un cuenta
+library(ggplot2)
+library(dplyr)
+
+
+### Cargamos la base de datos
+cdmx.rutas<-read.csv("cdmx_rutas_municipios_save.csv")
+
+### Vemos la información de la base de datos
+#head(cdmx.rutas); tail(cdmx.rutas); summary(cdmx.rutas); dim(cdmx.rutas);
+
+kable(head(cdmx.rutas[,c(2,3,11:15)])) %>% kable_styling(full_width = F)
+
+###
+
+### Vemos la información de la base de datoshead(cdmx.rutas); tail(cdmx.rutas); summary(cdmx.rutas); dim(cdmx.rutas);
+
+### Seleccionamos los orgines y destino
+
+### Origen
+origen <- cdmx.rutas[,c("pickup_longitude","pickup_latitude")]
+kable(head(origen), caption = "Lat/Lng de origen") %>% kable_styling(full_width = F)
+
+### Destino
+destino <- cdmx.rutas[,c("dropoff_longitude","dropoff_latitude")]
+kable(head(destino), caption = "Lat/Lng de destino") %>% kable_styling(full_width = F)
+
+### Mediante GNfindNearbyPostalCodes realizamos una prueba para obter el municipio
+### Para utilizar geonames creamos una cuenta previamente
+options(geonamesUsername="cristophercano")
+
+### Municipio de origen
+mun.origen.1<-GNfindNearbyPostalCodes(lat = origen[1,2], lng=origen[1,1],radius = "10", maxRows = "1", style = "MEDIUM")
+
+### Almacenamos solo el nombre del municipio de origen
+nombre.mun.o <- mun.origen.1$adminName2
+
+
+##La variable que nos devuelve es adminName2
+kable(paste("municipio de origen: ",nombre.mun.o), caption = "Municipio de origen") %>% kable_styling(full_width = F)
+
+### Municipio de destino
+mun.destino.1<-GNfindNearbyPostalCodes(lat = destino[1,2], lng=destino[1,1], radius = "10", maxRows = "1", style = "MEDIUM")
+
+### Almacenamos solo el nombre del municipio de origen
+nombre.mun.d <- mun.destino.1$adminName2
+
+##La variable que nos devuelve es adminName2
+kable(paste("municipio de destino: ",nombre.mun.d), caption = "Municipio de destino") %>%
+  kable_styling(full_width = F)
+
+
+kable(mun.origen.1, caption = "Todos los datos del municipio de origen") %>%
+  kable_styling(full_width = F)
+
+kable(mun.destino.1, caption = "Todos los datos del municipio de destino") %>%
+  kable_styling(full_width = F)
