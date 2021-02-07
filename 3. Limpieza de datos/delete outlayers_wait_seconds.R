@@ -1,9 +1,7 @@
-delete.outlayers<-function(data,dataframe,dist_km){
+del.outlayers.wait_sec<-function(data,dataframe,wait_min){
   ###ELIMINAR OUTLAYERS
 
   cn_exp <-data
-  
-  
   
   #Quitamos los outlayes y hacemos un gr?fico de caja de bigotes
   
@@ -18,7 +16,7 @@ delete.outlayers<-function(data,dataframe,dist_km){
     out_cns_list[i]=out_cns
     
     if (is.na(out_cns) == TRUE){
-      db_cn_clean<-filter(dataframe, dist_km < out_cns_list[i-1])
+      db_cn_clean<-filter(dataframe, wait_min < out_cns_list[i-1])
       return(db_cn_clean)
       break()
     }
