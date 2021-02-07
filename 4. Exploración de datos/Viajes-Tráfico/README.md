@@ -43,6 +43,7 @@ ggplot(tsUber, aes(date,cuenta))+
 ```
 Resultado
 
+
 ![PCTABLA](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Viajes-Tr%C3%A1fico/Gr%C3%A1ficos/Viajes%20Por%20Mes%20-%20Uber.png)
 
 A pesar de los pocos datos, se puede apreciar que en la segunda mitad del 2016 hubo un incremento en los viajes de Uber. Se requieren más datos si se desea investigar la autenticidad de este incremento.
@@ -73,7 +74,7 @@ ggplot(tsData,aes(date,cuenta))+
        y="Viajes")
 ```
 
-Resultado:
+Resultado
 
 ![PCTABLA](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Viajes-Tr%C3%A1fico/Gr%C3%A1ficos/Viajes%20Por%20D%C3%ADa%20-%20Taxis.png)
 
@@ -92,7 +93,8 @@ ggplot(tsUber, aes(date,wait_sec))+
        x="Fecha",
        y="Segundos por Mes")
 ```
-Resultado:
+Resultado.
+
 ![PCTABLA](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Viajes-Tr%C3%A1fico/Gr%C3%A1ficos/Tiempo%20de%20Espera%20-Uber.png)
 
 
@@ -115,11 +117,12 @@ ggplot(tsData,aes(date,wait_sec))+
        y="Viajes")
 ```
 
-Resultado: 
+Resultado
+
 ![PCTABLA](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Viajes-Tr%C3%A1fico/Gr%C3%A1ficos/Tiempo%20de%20Espera%20-%20Taxis.png)
 
 Parece que el rango de segundos con el automovil totalmente inmovil es mayor en los Taxis que en los Uber, esto se comprobará formalmente en otra sección.
 
-
+![equation](https://latex.codecogs.com/gif.latex?%5Coverline%7Bx%7D%3D%5Csum%5E%7Bn%7D_%7Bi%3D1%7D%20%5Cfrac%7Bx_i%7D%7Bn%7D)
 
 
