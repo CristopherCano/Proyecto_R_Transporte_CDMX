@@ -44,7 +44,8 @@ head(destino)
 ```
 ![2  destino lat lng](https://user-images.githubusercontent.com/71915068/107133059-3356fd00-68aa-11eb-89f1-247d16a1b0c4.PNG)
 
-Codigo para extrae los municipios 
+
+Codigo para extrae los municipios  de ```origen```
 
 ```R
 ### Mediante GNfindNearbyPostalCodes realizamos una prueba para obter el municipio
@@ -67,6 +68,7 @@ options(geonamesUsername="cristophercano")
 ![4 nom mun destino lat lng](https://user-images.githubusercontent.com/71915068/107133190-3a323f80-68ab-11eb-858e-b072889a456b.PNG)
 
 
+Codigo para extrae los municipios  de ```destino```
 ```R
 ### Municipio de destino
 (mun.destino.1<-GNfindNearbyPostalCodes(lat = destino[1,2], lng=destino[1,1], radius = "10", maxRows = "1", style = "MEDIUM"))
@@ -83,6 +85,59 @@ options(geonamesUsername="cristophercano")
 ```
 ![6  nom mun destino lat lng](https://user-images.githubusercontent.com/71915068/107133224-7fef0800-68ab-11eb-9943-cbaa13f6b2f0.PNG)
 
+
+### Podemos corrovorar esta información trazando la ruta en un mapa mediante leaflet y osrmRoute
+
+```R
+library(leaflet)
+library(osrm)
+library(sf)
+
+
+a <- c(origen[1,1],origen[1,2])
+b <- c(destino[1,1],destino[1,2])
+
+r<-osrmRoute(src = a,
+             dst = b,
+             returnclass = "sf", overview = "full",
+             osrm.profile = "car")
+r
+
+plot(st_geometry(r), add = TRUE)
+
+# Mapa de municipios de la CDMX
+mapa_municipios <- st_read("https://github.com/JuveCampos/Shapes_Resiliencia_CDMX_CIDE/raw/master/Zona%20Metropolitana/EdosZM.geojson", quiet = T) %>% 
+  filter(CVE_ENT == "09")
+
+# Mapa de la entidad de la Ciudad de México
+mapa_cdmx <- st_read("https://github.com/JuveCampos/Shapes_Resiliencia_CDMX_CIDE/raw/master/Zona%20Metropolitana/EstadosZMVM.geojson", quiet = T)[3,]
+
+
+m <- leaflet() %>% 
+  addTiles() %>% 
+  #addProviderTiles("CartoDB.Positron") %>% 
+  addPolylines(data=r$geometry, opacity=1, weight = 3) %>%
+  addMarkers(lng=destino[1,1], lat=destino[1,2], popup = nombre.mun.d, label = nombre.mun.d) %>%
+  addPopups(lng=origen[1,1], lat=origen[1,2], nombre.mun.o,options = popupOptions(closeButton = FALSE)) %>%
+  addPopups(lng=destino[1,1], lat=destino[1,2], nombre.mun.d,options = popupOptions(closeButton = FALSE)) %>%
+  addMarkers(lng=origen[1,1], lat=origen[1,2], popup = nombre.mun.o, label = nombre.mun.o) %>%
+  addPolygons(data = mapa_municipios, 
+              color = "#444444",
+              weight = 2, 
+              opacity = 0.4,
+              fill = F,
+              label = ~as.character(NOM_MUN)) %>%
+  addPolygons(data = mapa_cdmx, 
+              color = "#444444",
+              weight = 4, 
+              opacity = 1,
+              fill = F
+  )
+
+m
+
+```
+![7  MAPA](https://user-images.githubusercontent.com/71915068/107133366-ed4f6880-68ac-11eb-8ebd-6b6043d078e3.PNG)
 
 
 ### Conclusión
