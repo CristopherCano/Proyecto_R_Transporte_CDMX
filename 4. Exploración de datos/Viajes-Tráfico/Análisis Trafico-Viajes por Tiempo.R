@@ -5,6 +5,7 @@
 library(dplyr)
 library(xts)
 library(ggplot2)
+library(lubridate)
 
 # Espacio de trabajo
 setwd("../../1. Bases de datos")
@@ -15,11 +16,12 @@ data <- mutate(data, pickup_date = as.Date(pickup_date, "%d/%m/%Y"))
 data <- filter(data, wait_sec <= 3600)
 n <- as.integer(count(data))
 unos <- rep(1,n)
-data <- select(data,Transporte,pickup_date,pickup_time,wait_sec,municipios_origen,municipios_destino)
+data <- select(data,Transporte,pickup_date,pickup_time,wait_sec,municipios_origen,municipios_destino,dist_meters,trip_duration)
 data <- cbind(data,unos)
 names(data)
 uNames = c("UberX","UberBlack","UberXL","UberSUV")
 tNames = c("Taxi de Sitio","Taxi Libre","Radio Taxi")
+
 # Serie de tiempo de viajes por mes hechos por transportes Uber
 # Es mensual ya que solo se tienen pocos datos de ellos, pero se espera
 # ver una tendencia alcista debido a la creciente popularidad de esta aplicación
@@ -86,8 +88,8 @@ week <- week[c(1, 3, 4, 5, 2, 7, 6),]
 barplot(week$wait_sec,names.arg = week$day)
 
 # *************************************************************************************
-# En esta sección se hará una regresión lineal multivariable para predecir el 
-# tiempo de espera, se especula que las variables municipio_origen, municipio_destino
+# En esta sección se hará una regresión lineal multivariable para observar si se puede predecir el 
+# tiempo de espera, se especula que las variables municipio_origen, dist_meter (distancia al destino)
 # dia_semana(se agregará) mes(se agregará), y la hora(1-12)
 
 # Todas las variables que se asumen que son significativas son categóricas, por lo tanto se 
@@ -96,49 +98,133 @@ barplot(week$wait_sec,names.arg = week$day)
 tmp <- c(1,1,1,1,2,2,2,2,3,3,3,3)
 # Como son muy pocas las entradas con trasnporte de Uber, esta función resume todas las
 # categorias de Ubers en una
-fun <- function(x)
+fun <- function(x,namestc,name)
 {
-  if (x %in% uNames)
+  y = c()
+  for (i in 1:length(x))
   {
-    y <- "Uber"
-  }
-  else
-  {
-    y <- x
+    if (x[i] %in% namestc)
+    {
+      y[i] <- name
+    }
+    else
+    {
+      y[i] <- x[i]
+    }
   }
   y
 }
+
 
 lmData <- mutate(data, dia_semana = format(pickup_date, "%a"), mes = format(pickup_date,"%b"), hora = as.integer(hour(hms(as.character(factor(pickup_time))))) )
-lmData <- mutate(lmData, rango_tiempo = as.character(tmp[hora]))
+lmData <- mutate(lmData, rango_tiempo = hora, velocidad = dist_meters/trip_duration)
 
-lmData <- select(lmData,Transporte,municipios_origen,municipios_destino,dia_semana,mes,rango_tiempo)
-lmData <- mutate(lmData, Transporte = fun(Transporte))
+lmData <- select(lmData,Transporte,municipios_origen,dia_semana,mes,hora,wait_sec,dist_meters,velocidad)
+lmData <- mutate(lmData, Transporte = fun(Transporte,uNames,"Uber"))
 
-lmData <- fastDummies::dummy_cols(lmData)
+lmData <- fastDummies::dummy_cols(lmData, remove_first_dummy = TRUE)
+
+attach(lmData)
+
+m1 <- lm(wait_sec ~ hora
+         +dist_meters
+         +velocidad
+         +`Transporte_Taxi de Sitio`
+         +`Transporte_Taxi Libre`
+         +Transporte_Uber
+         +dia_semana_lun.
+         +dia_semana_mar.
+         +dia_semana_mié.
+         +dia_semana_jue.
+         +dia_semana_vie.
+         +dia_semana_sáb.
+         +mes_ene.
+         +mes_feb.
+         +mes_mar.
+         +mes_may.
+         +mes_jun.
+         +mes_jul.
+         +mes_ago.
+         +mes_sep.
+         +mes_oct.
+         +mes_nov.
+         +mes_dic.
+         +municipios_origen_Ahome
+         +`municipios_origen_Álvaro Obregón`
+         +`municipios_origen_Atizapán de Zaragoza`
+         +municipios_origen_Azcapotzalco
+         +`municipios_origen_Benito Juárez`
+         +municipios_origen_Chalco
+         +municipios_origen_Chimalhuacán
+         +`municipios_origen_Coacalco de Berriozábal`
+         +municipios_origen_Coyoacán
+         +`municipios_origen_Cuajimalpa de Morelos`
+         +municipios_origen_Cuauhtémoc
+         +municipios_origen_Cuautitlán
+         +`municipios_origen_Cuautitlán Izcalli`
+         +`municipios_origen_Ecatepec de Morelos`
+         +`municipios_origen_Emiliano Zapata`
+         +`municipios_origen_Gómez Palacio`
+         +`municipios_origen_Gustavo A. Madero`
+         +municipios_origen_Huixquilucan
+         +municipios_origen_Ixtapaluca
+         +municipios_origen_Iztacalco
+         +municipios_origen_Iztapalapa
+         +municipios_origen_Kanasín
+         +`municipios_origen_La Magdalena Contreras`
+         +`municipios_origen_La Paz`
+         +municipios_origen_Mérida
+         +`municipios_origen_Miguel Hidalgo`
+         +`municipios_origen_Milpa Alta`
+         +`municipios_origen_Naucalpan de Juárez`
+         +municipios_origen_Nezahualcóyotl
+         +municipios_origen_Querétaro
+         +municipios_origen_Tecámac
+         +municipios_origen_Tláhuac
+         +`municipios_origen_Tlalnepantla de Baz`
+         +municipios_origen_Tlalpan
+         +`municipios_origen_Tulancingo de Bravo`
+         +municipios_origen_Tultepec
+         +municipios_origen_Tultitlán
+         +`municipios_origen_Valle de Chalco Solidaridad`
+         +`municipios_origen_Venustiano Carranza`
+         +municipios_origen_Veracruz
+         +municipios_origen_Xochimilco)
+
+summary(m1)
 
 
-fun <- function(x)
-{
-  if (x %in% uNames)
-  {
-    y <- "Uber"
-  }
-  else
-  {
-    y <- x
-  }
-  y
-}
+m2 <- lm(wait_sec
+         ~hora
+         +dist_meters
+         +velocidad
+         +`Transporte_Taxi de Sitio`
+         +`Transporte_Taxi Libre`
+         +Transporte_Uber
+         +dia_semana_lun.
+         +dia_semana_mar.
+         +dia_semana_mié.
+         +dia_semana_jue.
+         +dia_semana_vie.
+         +mes_mar.
+         +mes_dic.
+         +mes_sep.
+         +mes_oct.
+         +mes_ago.)
+summary(m2)
 
+# Como era previsto, la regresión lineal hecha no predice con exactitud el tiempo de espera,
+# su calificación de R-squared es de tan solo 0.15. Las aplicaciónes que trazan la ruta más
+# corta de un lugar a otro y predicen con exactitud la inténsidad del tráfico usan modélos y 
+# algoritmos mucho mas complejos que una regresión lineal.
 
+# Sin embargo, de las variables que resultaron significativas para el modelo, están dias de 
+# lunes a viernes, que coincide con la gráfica de promedio de segundos parados por día de la semana
+# en la que se nota un aumento de tiempo parado en los días de lunes a viernes
 
-
-
-
-
-
-
-
+# Otra coincidencia es que los meses de marzo, agosto, septiembre y octubre parecen influir
+# en el tiempo de espera durante el viaje, estos meses coinciden con periodos vacacionales o 
+# dias festivos, para corroborar esta correlación haría falta más datos y un estudio más 
+# a fondo
 
 
