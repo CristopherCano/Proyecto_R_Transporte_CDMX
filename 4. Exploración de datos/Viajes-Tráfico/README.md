@@ -123,6 +123,6 @@ Resultado
 
 Parece que el rango de segundos con el automovil totalmente inmovil es mayor en los Taxis que en los Uber, esto se comprobará formalmente en otra sección.
 
-![equation](https://latex.codecogs.com/gif.latex?%5Coverline%7Bx%7D%3D%5Csum%5E%7Bn%7D_%7Bi%3D1%7D%20%5Cfrac%7Bx_i%7D%7Bn%7D)
+![ecuation](https://latex.codecogs.com/gif.latex?\overline{x}=\sum^{n}_{i=1}&space;\frac{x_i}{n})
 
 
