@@ -9,6 +9,8 @@ el uso de la libreria GeoNames la cual ofrece un aplio rango de herramientas par
 ### Objetivo
 Localizar los municipios de **origen** y **destino** a partir del par **lat/lng** de la base de datos de viajes por Taxi y Uber dentro de la CDMX
 
+![8  MAPA](https://user-images.githubusercontent.com/71915068/107133435-ad3cb580-68ad-11eb-91f3-19759088b6b1.PNG)
+
 ### Codigo
 
 Cargamos las librerias ```geonames``` y ```ggplot2```. Cargamos la base de datos y realizamos una inspección
@@ -134,7 +136,7 @@ m <- leaflet() %>%
 m
 
 ```
-![8  MAPA](https://user-images.githubusercontent.com/71915068/107133435-ad3cb580-68ad-11eb-91f3-19759088b6b1.PNG)
+![8  MAPA](https://user-images.githubusercontent.com/71915068/107139913-37077580-68e4-11eb-9158-6cfb4ccc2040.PNG)
 
 ### Loop para obtener más municipios por consulta
 
