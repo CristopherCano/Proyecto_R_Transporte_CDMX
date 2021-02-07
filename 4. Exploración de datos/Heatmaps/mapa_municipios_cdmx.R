@@ -38,16 +38,6 @@ mapaFactor <- mapa[,a == "factor"]
 # Funcion para cambiar varias variables a la vez.
 intensidad <- function(a) a <- factor(a, levels = c("Muy Alto","Alto","Medio","Bajo", "Muy Bajo", "N/D"))
 
-# Utilizamos la función en las variables especificadas.
-lapply(mapa[,c("GRANIZO", "TOM_ELEC", "PRECIPITAC", "INUNDACION", "TEM_MAX", "TEM_MIN", "NEVADA", "SUS_LADERA", "VUL_SOCIAL", "VUL_SOC_FR", "SISMO")], levels)
-
-
-mapa[,c("GRANIZO", "TOM_ELEC", "PRECIPITAC", "INUNDACION", "TEM_MAX", "TEM_MIN", "NEVADA", "SUS_LADERA", "VUL_SOCIAL", "VUL_SOC_FR", "SISMO")] <- 
-  lapply(mapa[,c("GRANIZO", "TOM_ELEC", "PRECIPITAC", "INUNDACION", "TEM_MAX", "TEM_MIN", "NEVADA", "SUS_LADERA", "VUL_SOCIAL", "VUL_SOC_FR", "SISMO")], intensidad)
-
-##########################
-# MAPA 1 - PRECIPITACION #
-##########################
 label = paste0("<b style = 'color: green;'>AGEB: ", mapaFactor$CVEGEO, "</b>", "<br>",  mapaFactor$ALCALDIA)
 
 paleta <- colorFactor("Blues", mapaFactor$PRECIPITAC, reverse = T)
