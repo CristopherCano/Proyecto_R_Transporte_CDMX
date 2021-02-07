@@ -203,3 +203,8 @@ write.csv(cdmx.rutas,"cdmx_rutas_municipios_save.csv")
 ![9 Tabla finalPNG](https://user-images.githubusercontent.com/71915068/107133626-ebd36f80-68af-11eb-8fd7-1523b36e8a1c.PNG)
 
 ### Conclusión
+
+- Se utilizaron las librerias ```ggplo2```, ```geonmaes```, ```leaflet``` y ```osrm``` para determinar la ubición de distintos origenes y destinos de viajes mediante transporte privado en la CDMX, para ello fue necesario utilizar la función ```GNfindNearbyPostalCodes``` y dos loops para obtener este dato para todos los origenes y destinos.
+
+- La visualización es muy sencilla con la libreria ```leaflet``` unicamente necesita la ubicación del lugar en lat/lng.
+
