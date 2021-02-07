@@ -3,29 +3,64 @@ library(tidyverse)
 library(lubridate)
 
 ### Cargamos los datos a la workspace
-municipios.cdmx <- read.csv("cdmx_rutas_municipios.csv", stringsAsFactors=T)
-
-### Municipio de origen
-(col.mun.origen<-select(municipios.cdmx, municipios_origen) %>% 
-    group_by(municipios_origen) %>%
-    count(municipios_origen, sort = TRUE))
-
-### Convertimos a date la columna pickup_date
-(col.mun.origen$pickup_date<-as.Date(col.mun.origen$pickup_date,"%d/%m/%Y"))
-
-### Ordenamos las fechas en orden ascendete de aÃ±o
-col.mun.origen<-arrange(col.mun.origen, pickup_date)
+municipios.cdmx <- read.csv("cdmx_transporte_clean3.csv", stringsAsFactors=T)
 
 ### Municipio de destino
 (col.mun.destino<-select(municipios.cdmx, municipios_destino) %>% 
     group_by(municipios_destino) %>%
     count(municipios_destino, sort = TRUE))
 
+### Alcadias de destino por Transporte
+(municipio.transporte.d<-select(municipios.cdmx, Transporte, municipios_destino) %>% 
+    group_by(municipios_destino, Transporte) %>%
+    count(municipios_destino,sort = TRUE))
+
+0.
 ### GrÃ¡fico municipios de destino por tipo de transporte
 ggplot(municipio.transporte.d) +
   geom_bar(aes(x = reorder(Transporte, n), y=n, fill = Transporte), stat = "identity", show.legend = FALSE) +
   coord_flip(clip = 'off') + ggtitle("municipios de destino") +
   facet_wrap(municipios_destino~., scales = "free_x",  strip.position = "top") 
+
+1.
+patron.t <- '(Taxi)'
+pos.t<-grep(patron.t, municipio.transporte.d$Transporte)
+
+all.taxis<-municipio.transporte.d[pos.t,]
+
+
+ggplot(filter(all.taxis, n>56)) +
+  geom_bar(aes(x = reorder(Transporte, -n), y=n, fill = municipios_destino, group= municipios_destino),
+           colour = "white",stat = "identity", position = "dodge", show.legend = FALSE) +
+  geom_text(aes(x = reorder(Transporte, -n), y=n, label = as.character(n), group = municipios_destino),
+            position = position_dodge(width = 0.9),
+            hjust = 0.5, size = 3, vjust=-0.4) +
+  geom_text(aes(x = reorder(Transporte, -n), y=n, label = as.character(municipios_destino), group = municipios_destino),
+            position = position_dodge(width = 0.9),
+            hjust = 1.2, size = 2, angle = 90) +
+  scale_y_continuous(limits=c(-90,1040)) + theme(axis.title.x=element_blank(),
+                                                 axis.ticks.x=element_blank()) + ylab("Número de viajes") +
+  labs(title="Municipios destino por tipo de taxi", subtitle = "CDMX")
+
+2.
+patron.u <- '(Uber)'
+pos.u<-grep(patron.u, municipio.transporte.d$Transporte)
+
+all.uber<-municipio.transporte.d[pos.u,]
+
+ggplot(filter(all.uber, n>=2)) +
+  geom_bar(aes(x = reorder(Transporte, -n), y=n, fill = municipios_destino, group= municipios_destino),
+           colour = "white",stat = "identity", position = "dodge", show.legend = FALSE) +
+  geom_text(aes(x = reorder(Transporte, -n), y=n, label = as.character(n), group = municipios_destino),
+            position = position_dodge(width = 0.9),
+            hjust = 0.5, size = 3, vjust=-0.4) +
+  geom_text(aes(x = reorder(Transporte, -n), y=n, label = as.character(municipios_destino), group = municipios_destino),
+            position = position_dodge(width = 0.93),
+            vjust=.4,hjust = 1.2, size = 2, angle = 90) +
+  scale_y_continuous(limits=c(-1,16)) + theme(axis.title.x=element_blank(),
+                                              axis.ticks.x=element_blank()) + ylab("Número de viajes") +
+  labs(title="Municipios destino por tipo de Uber", subtitle = "CDMX")
+
 
 ### GrÃ¡fico municipios de destino por taxi libre
 ggplot(filter(municipio.transporte.d, Transporte == "Taxi Libre")) +
