@@ -139,4 +139,69 @@ m
 ```
 ![8  MAPA](https://user-images.githubusercontent.com/71915068/107133435-ad3cb580-68ad-11eb-91f3-19759088b6b1.PNG)
 
+### Loop para obtener más municipios por consulta
+
+```R
+### El condigo siguiente nos ayudo a realizar la tarea anterior pero aplicandolo a los más de 16,000 datos
+
+
+# Initialize the data frame
+#####==========ORIGEN=============####
+
+# Se dividieron los datos ya que existe un limite de creditos disponibles por hora
+1:500
+501:1000
+1001:1500
+...
+8501:8625
+
+
+# Ejemplo 
+idx <- 1:20
+
+# Asiganmos un rago para encontrar los municipios
+origen.sample <-origen[idx,]
+
+# Nos aseguramos que sean los datos que queremos
+head(origen.sample); tail(origen.sample); dim(origen.sample); 
+
+
+iter = 0 # Loop para obtener el nombre de los municipios de origen 
+for(i in idx){
+  iter = iter + 1
+  result <- GNfindNearbyPostalCodes(lat = origen.sample[iter,2], lng=origen.sample[iter,1],radius = "10", maxRows = "1", style = "MEDIUM")$adminName2
+  cdmx.rutas$municipios_origen[i] <- result
+}
+
+#print(i) 
+
+# Resultado final de los municipios de origen encontrados
+head(cdmx.rutas$municipios_origen[idx])
+
+#####============DESTINO=============######
+
+
+# El procedimiento es el mismo que el anterior
+
+idx <- 1:20
+
+destino.sample <-destino[idx,]
+
+# Loop para obtener el nombre de los municipios de destino 
+iter = 0
+for(i in idx){
+  iter = iter + 1
+  result <- GNfindNearbyPostalCodes(lat = destino.sample[iter,2], lng=destino.sample[iter,1],radius = "10", maxRows = "1", style = "MEDIUM")$adminName2
+  cdmx.rutas$municipios_destino[i] <- result
+}
+print(i)
+
+
+# Resultado final de los municipios destino encontrados
+head(cdmx.rutas$municipios_destino[idx])
+
+# Guardamos los resultados 
+write.csv(cdmx.rutas,"cdmx_rutas_municipios_save.csv")
+```
+
 ### Conclusión
