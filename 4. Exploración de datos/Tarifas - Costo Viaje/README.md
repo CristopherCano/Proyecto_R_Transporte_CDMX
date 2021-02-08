@@ -98,7 +98,7 @@ viajesCostos <- viajesCostos %>% mutate(costoKM2 = case_when(
 
 ```
 
-Desglose de Tarifas 
+* Desglose de Tarifas 
 
 ```R
 #Graficar por categoría: costos viaje y por km y comparacion con y sin tarifa mínima
@@ -114,7 +114,9 @@ viajesCostos %>%
 
 ![image](https://user-images.githubusercontent.com/72113099/107188810-f116e400-69ad-11eb-8283-69b2dd4c9159.png)
 
-Costos de Viaje por Categoría
+Gracias a la gráfica se aprecia fácilmente el incremento gradual en las tarifas conforme se va subiendo en la escala de calidad en el servicio, confort, llegando hasta los niveles de amplios espacios y lujos.
+
+* Rangos de Costos de Viaje por Categoría
 ```R
 #Boxplot con los costos de viaje sin tomar en cuenta Tarifa Mínima
 ggplot(data = viajesCostos, aes(x=Transporte, y=costoViaje2)) + geom_boxplot() +
@@ -130,11 +132,23 @@ ggplot(data = viajesCostos, aes(x=Transporte, y=costoViaje2)) + geom_boxplot() +
 ![image](https://user-images.githubusercontent.com/72113099/107222906-1d952500-69db-11eb-872a-e5d0bd9907f0.png)
 
 En la segunda gráfica es donde se sustituyen los valores del Costo de Viaje que eran menores a la tarifa mínima de cada tipo de transporte por la parte de Uber, ya que por la parte de los Taxis, la tarifa mínima es la misma que la tarifa base.  
-
+* Promedios de Distancia, Costo Total y por Kilómetro 
 ```R
-
-
-
+#Graficar por categoría: costos viaje y por km y comparacion con y sin tarifa mínima
+viajesCostos %>%
+  group_by(Transporte) %>%
+  summarize(distancia=mean(dist_km), precio=mean(costoViaje), precioKM=mean(costoKM),
+            precio2=mean(costoViaje2), precioKM2=mean(costoKM2)) %>%
+    gather(key, value, -Transporte) %>% 
+      ggplot(aes(x=Transporte, y=value, fill=key)) +
+      geom_bar(stat="identity", position=position_dodge()) +
+      geom_text(aes(label=sprintf("%0.1f", round(value, digits = 1))), position=position_dodge(width=0.9), vjust=-0.25) + 
+      labs(title="Tarifas por Tipo de Transporte", subtitle = "CDMX (2016-2017)", y = "Costo ($)", color = "Tarifa", size=15) +
+      scale_fill_discrete(name = "Costos Total y /KM ", labels = c("Dist prom", "Costo prom sin Tarifa Min", "Costo prom sin Tarifa Min", "Costo/KM prom sin Tarifa Min", "Costo/KM prom con Tarifa Min"))
 ```
+
+![image](https://user-images.githubusercontent.com/72113099/107225082-f855e600-69dd-11eb-9140-fdb06ae7f996.png)
+
+Al mirar los Costos por Kilómetro, 
 
 
