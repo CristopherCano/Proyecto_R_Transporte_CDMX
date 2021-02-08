@@ -25,12 +25,13 @@ ggplot(rutas.df, aes(x = trip_duration_hrs)) + geom_boxplot()
 ```R
 ggplot(rutas.df, aes(x = dist_km)) + geom_histogram(bins = 30)
 ```
-![2 box](https://user-images.githubusercontent.com/71915068/107176046-f36c4480-6993-11eb-8e9b-f845d1196cab.png)
+![2 his](https://user-images.githubusercontent.com/71915068/107176047-f404db00-6993-11eb-8676-ba9cdc25ef16.png)
+
 
 ```R
 ggplot(rutas.df, aes(x = dist_km)) + geom_boxplot()
 ```
-![2 his](https://user-images.githubusercontent.com/71915068/107176047-f404db00-6993-11eb-8676-ba9cdc25ef16.png)
+![2 box](https://user-images.githubusercontent.com/71915068/107176046-f36c4480-6993-11eb-8e9b-f845d1196cab.png)
 ```R
 ggplot(rutas.df, aes(x = wait_min)) + geom_histogram(bins = 30)
 ```
@@ -135,17 +136,29 @@ dim(clean_waitsec_3)
 
 ```R
 ggplot(clean_time_6, aes(x = trip_duration_hrs)) + geom_histogram(bins = 30)
+```
+![4 box](https://user-images.githubusercontent.com/71915068/107176050-f49d7180-6993-11eb-800a-1dcf5403b010.png)
+```R
 ggplot(clean_time_6, aes(x = trip_duration_hrs)) + geom_boxplot()
 ```
+![4 hist](https://user-images.githubusercontent.com/71915068/107176053-f5360800-6993-11eb-9845-a1237c28bb43.png)
 ```R
 ggplot(clean_time_6, aes(x = dist_km)) + geom_histogram(bins = 30)
+```
+![5 box](https://user-images.githubusercontent.com/71915068/107176054-f5360800-6993-11eb-83e0-3fd19163e106.png)
+```R
 ggplot(clean_time_6, aes(x = dist_km)) + geom_boxplot()
 ```
+![5 hist](https://user-images.githubusercontent.com/71915068/107176055-f5ce9e80-6993-11eb-822a-aec0160f0af2.png)
 ```R
 ggplot(clean_time_6, aes(x = trip_duration)) + geom_histogram(bins = 30)
+```
+![6  hist](https://user-images.githubusercontent.com/71915068/107176058-f6673500-6993-11eb-8946-dc9b92ed6a78.png)
+
+```R
 ggplot(clean_time_6, aes(x = trip_duration)) + geom_boxplot()
 ```
-
+![6  box](https://user-images.githubusercontent.com/71915068/107176057-f5ce9e80-6993-11eb-817c-70cead3a2654.png)
 Guardamos los datos
 ```R
 write.csv(clean_time_6, "cdmx_transporte_clean3.csv")
