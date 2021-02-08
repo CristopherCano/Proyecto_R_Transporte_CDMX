@@ -8,8 +8,12 @@
 - [Tarifas](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/1.%20Bases%20de%20datos/Tarifas/README.md)
 - [Viajes](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/1.%20Bases%20de%20datos/Viajes)
 
-#### [2. Extracción de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/2.%20Extracci%C3%B3n%20de%20datos/README.md)
-#### [3. Limpieza de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/3.%20Limpieza%20de%20datos/README.md)
+#### 2. Extracción de datos
+- [Reverse geocoding](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/2.%20Extracci%C3%B3n%20de%20datos/README.md)
+
+#### 3. Limpieza de datos
+- [Eliminación de outlayers](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/3.%20Limpieza%20de%20datos/README.md)
+
 #### [4. Exploración de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/4.%20Exploraci%C3%B3n%20de%20datos)
 
 - [Heat maps](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Heat%20maps/README.md)
