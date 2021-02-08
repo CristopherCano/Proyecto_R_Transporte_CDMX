@@ -1,5 +1,10 @@
 # Limpieza de datos
 
+### Antes y despues de la limpieza de datos 
+
+```duración del viaje``` ```distancia del viaje``` ```tiempo de espera```
+![Tabla comparación](https://user-images.githubusercontent.com/71915068/107182730-e571f000-69a2-11eb-987d-5e3e1e018045.PNG)
+
 ```R
 library(ggplot2)
 library(dplyr)
