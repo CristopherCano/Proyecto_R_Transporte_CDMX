@@ -55,7 +55,9 @@ library(leaflet.extras)
                 opacity = 1,
                 fill = F
     )) %>% addMarkers(lng=origen[1:5500,1], lat=origen[1:5500,2],  clusterOptions = markerClusterOptions()) %>%
-  addMarkers(lng=destino[1:5500,1], lat=destino[1:5500,2],  clusterOptions = markerClusterOptions())
+  addMarkers(lng=destino[1:5500,1], lat=destino[1:5500,2],  clusterOptions = markerClusterOptions()) %>%
+  addPopups(lng=municipios$lngt, lat=municipios$lati, municipios$mapa_municipios.NOM_MUN,options = popupOptions(closeButton = FALSE), options(popupOptions(
+    maxHeight = 0.2)))
   
 
 
@@ -76,4 +78,6 @@ library(leaflet.extras)
                 opacity = 1,
                 fill = F
     )) %>% addCircleMarkers(lng=origen[1:5500,1], lat=origen[1:5500,2], radius = .2, opacity = 0.05) %>%
-  addCircleMarkers(lng=destino[1:5500,1], lat=destino[1:5500,2], radius = .2, color = "#ff325b", opacity = 0.02)
+  addCircleMarkers(lng=destino[1:5500,1], lat=destino[1:5500,2], radius = .2, color = "#ff325b", opacity = 0.02) %>%
+  addPopups(lng=municipios$lngt, lat=municipios$lati, municipios$mapa_municipios.NOM_MUN,options = popupOptions(closeButton = FALSE), options(popupOptions(
+    maxHeight = 3)))
