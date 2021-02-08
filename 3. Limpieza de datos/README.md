@@ -1,10 +1,5 @@
 # Limpieza de datos
 
-### Antes y despues de la limpieza de datos 
-
-```duración del viaje``` ```distancia del viaje``` ```tiempo de espera```
-![Tabla comparación](https://user-images.githubusercontent.com/71915068/107182730-e571f000-69a2-11eb-987d-5e3e1e018045.PNG)
-
 
 ### Obervaciones de los datos
 
@@ -27,6 +22,13 @@ Con la limpieza mediante boxplots que nos ayuda a detectar outlayers, obtuvimos 
 - El timpo máximo de espera del viaje es 8.45 min.
 
 Estos valores ya son más utiles para trabajar con ellos.
+
+
+### Antes y despues de la limpieza de datos 
+
+```duración del viaje``` ```distancia del viaje``` ```tiempo de espera```
+![Tabla comparación](https://user-images.githubusercontent.com/71915068/107182730-e571f000-69a2-11eb-987d-5e3e1e018045.PNG)
+
 
 ### Codigo
 
