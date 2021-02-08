@@ -1,0 +1,70 @@
+---
+title: "limpieza de datos"
+author: "Cristopher"
+date: "7/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, echo=FALSE,results='asis',warning=FALSE}
+library(kableExtra)
+library(knitr)
+
+### Cargamos las librerias 
+library(geonames) ### Geonames es una libreria de libre acceso y requiere crear un cuenta
+library(ggplot2)
+library(dplyr)
+rutas.df <- read.csv("cdmx_transporte_raw.csv")
+kable(t(round(as.array(summary(rutas.df$trip_duration_hrs)),4))) %>%
+  kable_material(c("striped", "hover"))
+
+kable(t(round(as.array(summary(rutas.df$dist_km)),digit = 2))) %>%
+  kable_material(c("striped", "hover"))
+
+kable(t(round(as.array(summary(rutas.df$wait_min)),4))) %>%
+  kable_material(c("striped", "hover"))
+
+a<-read.csv("cdmx_transporte_clean3.csv")
+kable(t(round(as.array(summary(a$trip_duration_hrs)),4))) %>%
+  kable_material(c("striped", "hover"))
+
+kable(t(round(as.array(summary(a$dist_km)),4))) %>%
+  kable_material(c("striped", "hover"))
+
+kable(t(round(as.array(summary(a$wait_min)),4))) %>%
+  kable_material(c("striped", "hover"))
+
+t1<-as.array(summary(rutas.df$trip_duration_hrs))
+t2<-as.array(summary(rutas.df$dist_km))
+t3<-as.array(summary(rutas.df$wait_min))
+
+t4<-as.array(summary(a$trip_duration_hrs))
+t5<-as.array(summary(a$dist_km))
+t6<-as.array(summary(a$wait_min))
+
+c1<-rbind.data.frame(round(t1*60,2),round(t4*60,2))
+c2<-rbind.data.frame(round(t2,2),round(t5,2))
+c3<-rbind.data.frame(round(t3,2),round(t6,2))
+
+nombres<-names(t1)
+
+names(c1) <- nombres
+names(c2) <- nombres
+names(c3) <- nombres
+
+rownames(c1) <- c("Antes", "Despues")
+rownames(c2) <- c("Antes", "Despues")
+rownames(c3) <- c("Antes", "Despues")
+
+
+kable(c1, caption = "<b>Duración del viaje min<b>") %>%
+  kable_material(c("striped", "hover"))
+
+kable(c2, caption = "<b>Distancia del viaje km<b>") %>%
+  kable_material(c("striped", "hover"))
+
+kable(c3, caption = "<b>Tiempo de espera min<b>") %>%
+  kable_material(c("striped", "hover"))
