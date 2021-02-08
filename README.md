@@ -4,13 +4,13 @@
 
 ## Contenido
 
-[1. Bases de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/1.%20Bases%20de%20datos)
+#### [1. Bases de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/1.%20Bases%20de%20datos)
 - [Tarifas](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/1.%20Bases%20de%20datos/Tarifas/README.md)
 - [Viajes](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/1.%20Bases%20de%20datos/Viajes)
 
-[2. Extracción de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/2.%20Extracci%C3%B3n%20de%20datos/README.md)\
-[3. Limpieza de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/3.%20Limpieza%20de%20datos/README.md)\
-[4. Exploración de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/4.%20Exploraci%C3%B3n%20de%20datos)
+#### [2. Extracción de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/2.%20Extracci%C3%B3n%20de%20datos/README.md)
+#### [3. Limpieza de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/3.%20Limpieza%20de%20datos/README.md)
+#### [4. Exploración de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/4.%20Exploraci%C3%B3n%20de%20datos)
 
 - [Heat maps](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Heat%20maps/README.md)
 - [Tarifas y Costos Finales](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Tarifas%20-%20Costo%20Viaje/README.md)
@@ -18,7 +18,7 @@
 - [Análisis de Distancias, Tiempos de espera en el trafico y Velocidad](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Velocidad-Distancia-Tiempo%20Detenido/README.md)
 - [Análisis de Viajes y Tráfico](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Viajes-Tr%C3%A1fico/README.md)
 
-[5. Análisis estadistico]()
+#### [5. Análisis estadistico]
 - [Reduccipn tiempo detenido por días](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/5.%20An%C3%A1lisis%20estadistico/Reducci%C3%B3n%20Tiempo%20Detenido%20Por%20D%C3%ADas/README.md)
 - [Análisis de Distancias, Tiempos de espera en el trafico y Velocidad](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/5.%20An%C3%A1lisis%20estadistico/Velocidad-Distancia-Tiempo%20Detenido/README.md)
 
