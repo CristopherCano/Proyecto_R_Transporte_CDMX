@@ -1,0 +1,48 @@
+---
+title: "CDMX Top 10"
+author: "Cristopher"
+date: "7/2/2021"
+output: html_document
+---
+
+```{r message=FALSE, echo=FALSE,results='asis',warning=FALSE}
+library(kableExtra)
+library(knitr)
+
+### Cargamos las paqueterias
+library(dplyr)
+library(ggplot2)
+
+
+### Cargamos los datos a la workspace
+municipios.cdmx <- read.csv("cdmx_transporte_clean3.csv", stringsAsFactors=T)
+
+### Municipio de origen
+col.mun.origen<-select(municipios.cdmx, municipios_origen) %>% 
+  group_by(municipios_origen) %>%
+  count(municipios_origen, sort = TRUE)
+
+### Municipio de destino
+col.mun.destino<-select(municipios.cdmx, municipios_destino) %>% 
+    group_by(municipios_destino) %>%
+    count(municipios_destino, sort = TRUE)
+
+### Datafram agrupando municipios por origen y destino
+col.mun.origen$lugar <- rep("origen", 40)
+col.mun.destino$lugar <- rep("destino", 40)
+
+col.mun.origen<-rename(col.mun.origen, municipios = "municipios_origen")
+col.mun.destino<-rename(col.mun.destino, municipios = "municipios_destino")
+
+destinos <- rbind2(col.mun.origen, col.mun.destino)
+
+kable(filter(destinos, n>500), caption = "Origen y destino más frecuentes") %>%
+  kable_styling(full_width = F)
+
+### Tipo de transporte
+tipo.transporte<-select(municipios.cdmx, Transporte) %>% 
+    group_by(Transporte) %>%
+    count(Transporte, sort = TRUE)
+
+kable(tipo.transporte, caption = "Viajes totales") %>%
+  kable_styling(full_width = F)

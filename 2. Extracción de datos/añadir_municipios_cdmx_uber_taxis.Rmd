@@ -71,3 +71,5 @@ kable(mun.origen.1, caption = "Todos los datos del municipio de origen") %>%
 
 kable(mun.destino.1, caption = "Todos los datos del municipio de destino") %>%
   kable_styling(full_width = F)
+
+

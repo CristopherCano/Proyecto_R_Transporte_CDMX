@@ -13,20 +13,10 @@ municipios.cdmx <- read.csv("cdmx_transporte_clean3.csv", stringsAsFactors=T)
 
 ### Municipio de destino
 (col.mun.destino<-select(municipios.cdmx, municipios_destino) %>% 
-  group_by(municipios_destino) %>%
-  count(municipios_destino, sort = TRUE))
+    group_by(municipios_destino) %>%
+    count(municipios_destino, sort = TRUE))
 
-### Tipo de transporte
-(tipo.transporte<-select(municipios.cdmx, Transporte) %>% 
-    group_by(Transporte) %>%
-    count(Transporte, sort = TRUE))
-
-### Alcadias de origen por Transporte
-(municipio.transporte.o<-select(municipios.cdmx, Transporte, municipios_origen) %>% 
-    group_by(municipios_origen, Transporte) %>%
-    count(municipios_origen,sort = TRUE))
-
-#### CHECK
+### Datafram agrupando municipios por origen y destino
 col.mun.origen$lugar <- rep("origen", 40)
 col.mun.destino$lugar <- rep("destino", 40)
 
@@ -34,6 +24,7 @@ col.mun.origen<-rename(col.mun.origen, municipios = "municipios_origen")
 col.mun.destino<-rename(col.mun.destino, municipios = "municipios_destino")
 
 destinos <- rbind2(col.mun.origen, col.mun.destino)
+destinos
 
 0.
 ggplot(filter(destinos, n>200)) +
@@ -47,6 +38,12 @@ ggplot(filter(destinos, n>200)) +
                                    axis.ticks.y=element_blank())+
   scale_fill_manual(values=c("#ff0033", "#00b3ff")) 
 
+
+### Tipo de transporte
+tipo.transporte<-select(municipios.cdmx, Transporte) %>% 
+    group_by(Transporte) %>%
+    count(Transporte, sort = TRUE)
+
 2.
 ### Gráfico de barras tipo de transporte
 ggplot(tipo.transporte) +
@@ -57,6 +54,15 @@ ggplot(tipo.transporte) +
   ylab("N�mero de viajes") + theme(axis.title.y=element_blank(),
                                    axis.ticks.y=element_blank()) +
   scale_fill_manual(values=c("#ffcc00", "#ffd633","#ffdb4d", "#0033ff","#ff0033","#000000","#262626"))
+
+
+### Alcadias de origen por Transporte
+(municipio.transporte.o<-select(municipios.cdmx, Transporte, municipios_origen) %>% 
+    group_by(municipios_origen, Transporte) %>%
+    count(municipios_origen,sort = TRUE))
+
+
+
 
 3.
 ### Gráfico municipios de origen por tipo de transporte
