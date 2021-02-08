@@ -17,6 +17,7 @@ no siempore es posible evadir los congestionamientos en la y quedar detenido en 
 Para medir el el tiempo que el vehiculo paso detenido en el trafico se usa la columna "wait_sec", esta indica el tiempo que el transporte estuvo completamente detenido durante el trayecto.
 
 ### Librerías utilizadas
+```R
 library(dplyr)
 library(ggplot2)
 library(DescTools)
