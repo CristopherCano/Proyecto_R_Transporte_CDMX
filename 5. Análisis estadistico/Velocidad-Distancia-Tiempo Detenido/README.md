@@ -1,6 +1,8 @@
 
 # Exploración de datos - Análisis de Distancias, Tiempos de espera en el trafico y Velocidad
 
+## Exploración de datos - Análisis de Tiempos de espera en el trafico
+
 En este análisis se buscaron las relaciones entre las diferentes variables (como la distancias promedio de los viajes y el tipo de transporte) 
 y la cantidad de viajes hechos y la velocidad promedio alcanzada en cada viaje.
 
@@ -64,6 +66,7 @@ tiposT # 3 tipos de taxi VS 4 tipos de Uber
 ```
 
 Una vez identificados los datos, creamos otro dataframe donde  agrupamos los datos en dos grupos (Taxis y Uber) para hacer las comparaciones entre ellos, y graficarlos.
+```R
 #Crear una copia para manipular
 datosF2<-datosF
 
@@ -182,3 +185,151 @@ summary(datosUberF$wait_sec);
 ```
 #### Conclusion
 Por lo cual, aceptamos la hipotesis nula, la cual confirma nuestra suposicion de que en general, los conductores de Uber pasan menos tiempo en el trafico.
+
+
+
+## Exploración de datos - Análisis de Distancias recorridas por Viaje
+
+
+Para medir las distancias entre que recorren los vehiculos en sus viajes se usa la columna "dist_meters", esta indica la distancia recorrida por el vehículo durante el trayecto.
+Partiendo del dataframe principal anterior tenememos
+```R
+datos <-  read.csv("cdmx_rutas_municipiosVel.csv", header = T)
+datosF<-select(datos, Transporte,trip_duration,trip_duration_hrs,dist_meters,dist_km,wait_sec,wait_min,
+               Vel_mts_seg ,Vel_km_hr);
+
+#DISTANCIA VIAJE
+summary(datosF2$dist_meters);
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 500    1835    3154    3642    5101    9130 
+#Mode(datosF$dist_meters);
+
+IQR(datosF$dist_meters); #3393.5
+1835 - (1.5 *IQR(datosF2$dist_meters));  # -3064
+5101 + (1.5 *IQR(datosF2$dist_meters)); # 10000
+```
+Procedemos a graficar los datos para ver como estan distribuidas las velocidades
+
+```R
+datosF2 %>%
+  ggplot() + 
+  aes(dist_meters) +
+  geom_histogram(binwidth = 1000, col="black", fill = "blue") +
+  ggtitle("PROMEDIO DE DISTANCIA DE LOS VIAJES EN GENERAL") +
+  ylab("Frecuencia") +
+  xlab("Distancia de viaje (mts)") +
+  theme_light();
+ 
+```
+Ahora analizamos por separado los datos de los Taxis y Uber
+
+```R
+target <- c("Taxi de Sitio","Taxi Libre","Radio Taxi")
+datosTaxi <- filter(datosF,Transporte %in% target)
+datosTaxi;
+#DISTANCIA VIAJE
+summary(datosTaxi$dist_meters);
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 500    1847    3164    3645    5098    9130
+
+IQR(datosTaxi$dist_meters); #3251
+1847 - (1.5 *IQR(datosTaxi$dist_meters));  # -3029.5
+5098 + (1.5 *IQR(datosTaxi$dist_meters)); # 9974.5
+
+------------------------------------------------------------------------------
+
+target <- c("UberX","UberBlack","UberXL","Ube rSUV")
+datosUber <- filter(datosF,Transporte %in% target)
+datosUber;
+#DISTANCIA VIAJE
+summary(datosUber$dist_meters);
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#515    1222    2522    3256    4273    9061 
+
+IQR(datosUber$dist_meters); #3050.5
+1222 - (1.5 *IQR(datosUber$dist_meters));  # -3353.75
+4273 + (1.5 *IQR(datosUber$dist_meters)); # 8848.75
+
+```
+
+## Exploración de datos - Análisis de las Velocidades Promedio Viaje
+
+Para medir las velocidades promedio durante los viajes en cada transporte se usa la columna "Vel_km_hr".
+Partiendo del dataframe principal anterior nuevamente tenememos
+```R
+datos <-  read.csv("cdmx_rutas_municipiosVel.csv", header = T)
+datosF<-select(datos, Transporte,trip_duration,trip_duration_hrs,dist_meters,dist_km,wait_sec,wait_min,
+               Vel_mts_seg ,Vel_km_hr);
+
+#VELOCIDADES EN EL TRANSPORTE
+summary(datosF2$Vel_km_hr);
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#0.74   12.16   16.27   17.47   20.72  193.09 
+
+IQR(datosF$Vel_km_hr); #8.56
+12.16 - (1.5 *IQR(datosF2$Vel_km_hr));  # -0.68
+20.72 + (1.5 *IQR(datosF2$Vel_km_hr)); # 33.56
+
+datosFV<-filter(datosF2, Vel_km_hr <= 34) # Seleccionamos velocidades dentro del outlayer
+
+summary(datosFV$Vel_km_hr);
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.74   11.99   15.99   16.26   20.12   33.98
+
+```
+
+
+```R
+datosFV %>%
+  ggplot() + 
+  aes(Vel_km_hr) +
+  geom_histogram(binwidth = 3, col="black", fill = "blue") +
+  ggtitle("PROMEDIO DE Velocidad DE LOS VIAJES EN GENERAL") +
+  ylab("Frecuencia") +
+  xlab("Velocidad Promedio en el viaje (km/h)") +
+  theme_light();
+  
+```
+Ahora analizamos por separado los datos de los Taxis y Uber
+```R
+target <- c("Taxi de Sitio","Taxi Libre","Radio Taxi")
+datosTaxi <- filter(datosF,Transporte %in% target)
+datosTaxi;
+#VELOCIDADES EN EL TRANSPORTE
+summary(datosTaxi$Vel_km_hr);
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#0.74   12.17   16.27   17.44   20.70  193.09
+
+IQR(datosTaxi$Vel_km_hr); #12.32
+12.17 - (1.5 *IQR(datosTaxi$Vel_km_hr)); # -0.62125
+20.70 + (1.5 *IQR(datosTaxi$Vel_km_hr)); # 33.49125
+
+------------------------------------------------------------------------------
+
+target <- c("UberX","UberBlack","UberXL","Ube rSUV")
+datosUber <- filter(datosF,Transporte %in% target)
+datosUber;
+#VELOCIDADES EN EL TRANSPORTE
+summary(datosUber$Vel_km_hr);
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#   1.80   11.00   17.56   19.68   23.32   85.62
+
+IQR(datosUber$Vel_km_hr); #12.32
+11.00 - (1.5 *IQR(datosUber$Vel_km_hr));  # -7.48
+23.32 + (1.5 *IQR(datosUber$Vel_km_hr)); # 41.8
+```
+
+Procedemos a hacer la comparacion, ahora elimando los outlayers de los datos
+```R
+datosTaxiF<-filter(datosTaxi, wait_sec <= 866.5) #
+datosUberF<-filter(datosUber, wait_sec <= 801.5) # 
+
+################### TAXI ###################
+summary(datosTaxiF$Vel_km_hr);
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.74   12.01   16.00   16.27   20.12   33.98 
+################### TAXI ###################
+summary(datosUberF$Vel_km_hr);
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#2.29   13.48   26.11   26.43   37.03   62.28 
+```
