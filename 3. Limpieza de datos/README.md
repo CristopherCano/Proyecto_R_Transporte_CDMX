@@ -39,18 +39,17 @@ ggplot(rutas.df, aes(x = wait_min)) + geom_histogram(bins = 30)
 ```R
 ggplot(rutas.df, aes(x = wait_min)) + geom_boxplot()
 ```
-
 ![3 hist](https://user-images.githubusercontent.com/71915068/107176049-f49d7180-6993-11eb-84b2-47b6ed9dfbeb.png)
+
+
+### Limpieza de datos
 ```R
 clean_time <- del.outlayers.trip_duration(rutas.df$trip_duration_hrs, rutas.df,trip_duration_hrs)
-```
-![3 hist](https://user-images.githubusercontent.com/71915068/107176049-f49d7180-6993-11eb-84b2-47b6ed9dfbeb.png)
-
 #clean_dist<-del.outlayers.dist_meters(clean_time$dist_km, clean_time, dist_km)
-
 clean_waitsec <- del.outlayers.wait_sec(clean_time$wait_min, clean_time, wait_min)
 ```
 
+Análsis de limpieza
 ```R
 dim(clean_waitsec);
 
