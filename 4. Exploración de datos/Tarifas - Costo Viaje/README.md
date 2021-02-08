@@ -84,6 +84,7 @@ viajesCostos <- viajesCostos %>% mutate(costoViaje2 = case_when(
 
 Se calcula el precio por kilómetro. 
 Existen casos en los que la distancia es menor a 1km por lo que se crean discrepancias matemáticas, sin embargo, éstos datos no pueden ser eliminados simplemente por lo que se opta por redondear la distancia a 1km. 
+
 ```R
 #Si la distancia es menor a 1km, se atribuye directamente costo total/km
 viajesCostos <- viajesCostos %>% mutate(costoKM = case_when( 
@@ -96,6 +97,8 @@ viajesCostos <- viajesCostos %>% mutate(costoKM2 = case_when(
   TRUE ~ costoViaje2/dist_km))
 
 ```
+
+Desglose de Tarifas 
 
 ```R
 #Graficar por categoría: costos viaje y por km y comparacion con y sin tarifa mínima
