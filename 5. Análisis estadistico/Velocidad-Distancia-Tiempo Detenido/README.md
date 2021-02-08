@@ -7,12 +7,13 @@ En este análisis se buscaron las relaciones entre las diferentes variables (com
 y la cantidad de viajes hechos y la velocidad promedio alcanzada en cada viaje.
 
 ### Hipotesis nula
+Ambos tipos de transporte;Taxis y Ubers tienen un tiempo similar detenidos en el tráfico, pues aun con la ayuda de aplicaciones para trafico como Waze, 
+no siempore es posible evadir los congestionamientos en la y quedar detenido en el tráfico.
+
+### Hipotesis alternativa
 Se piensa que los conductores de Uber deberia de pasar menos tiempo detenidos en el trafico , debido a que para despazarse usan aplicaciones con Waze, 
 las cuales les ayudan a encontrar la ruta mas optima y en la que encontrarian menos trafico.
 
-### Hipotesis alternativa
-Ambos tipos de transporte;Taxis y Ubers tienen un tiempo similar detenidos en el tráfico, pues aun con la ayuda de aplicaciones para trafico como Waze, 
-no siempore es posible evadir los congestionamientos en la y quedar detenido en el tráfico.
 
 Para medir el el tiempo que el vehiculo paso detenido en el trafico se usa la columna "wait_sec", esta indica el tiempo que el transporte estuvo completamente detenido durante el trayecto.
 
@@ -184,6 +185,33 @@ summary(datosUberF$wait_sec);
 #Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #0.00   52.75  114.50  172.19  254.25  745.00 
 ```
+
+#### Contraste de Hipótesis
+```R
+# 1.- Se desea probar que el promedio de tiempo detenido en el viaje es menor en 
+#     viajes con Ubers que con Taxis
+
+# Taxis : 1 ----- Ubers : 2
+# Obtención de los datos
+
+(n1 <- length(datosTaxiF$wait_sec))
+(x1 <- mean(datosTaxiF$wait_sec))
+(var1 <- var(datosTaxiF$wait_sec))
+
+(n2 <- length(datosUberF$wait_sec))
+(x2 <- mean(datosUberF$wait_sec))
+(var2 <- var(datosUberF$wait_sec))
+
+# Cálculo de los estadísticos
+# H_0: mu1-mu2 = 0 | H_1: mu1-mu2 > 0
+delta = 0
+(Z = (x1-x2-delta)/sqrt((var1/n1)+(var2/n2)))
+(Z.05 = qnorm(p=0.05, lower.tail = FALSE))
+(Z>=Z.05)
+# Z >= Z.05: TRUE
+# Se rechaza H_0
+# Como se había planteado, los uber pasan menos tiempo detenidos durante el trayecto
+```
 #### Conclusion
 Por lo cual, aceptamos la hipotesis nula, la cual confirma nuestra suposicion de que en general, los conductores de Uber pasan menos tiempo en el trafico.
 
@@ -282,6 +310,35 @@ IQR(datosUber$dist_meters); #3050.5
 4273 + (1.5 *IQR(datosUber$dist_meters)); # 8848.75
 
 ```
+#### Contraste de Hipótesis
+Se piensa que por el precio y la popularidad que tenia Uber en 2016-2017, los taxis tenian viajes más largos.
+```R
+# 2.- Se desea probar que el promedio de distancias recorridad por taxis es mayor
+#     al de los uber
+
+# Taxis : 1 ----- Ubers : 2
+# Obtención de los datos
+
+(n1 <- length(datosTaxiF$dist_meters))
+(x1 <- mean(datosTaxiF$dist_meters))
+(var1 <- var(datosTaxiF$dist_meters))
+
+(n2 <- length(datosUberF$dist_meters))
+(x2 <- mean(datosUberF$dist_meters))
+(var2 <- var(datosUberF$dist_meters))
+
+# Cálculo de los estadísticos
+# H_0: mu1-mu2 = 0 | H_1: mu1-mu2 < 0
+delta = 0
+(Z = (x1-x2-delta)/sqrt((var1/n1)+(var2/n2)))
+(Z.05 = -qnorm(p=0.05, lower.tail = FALSE))
+(Z>=Z.05)
+# Z >= Z.05: TRUE
+# Se rechaza H_0
+# Como se había planteado, los taxis toman viajes más largos que los ubers
+```
+#### Conclusión
+Se puede afirmar que los taxis toman viajes más largos que los Ubers.
 
 ## Exploración de datos - Análisis de las Velocidades Promedio Viaje
 
