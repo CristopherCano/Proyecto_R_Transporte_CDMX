@@ -27,7 +27,7 @@ destinos <- rbind2(col.mun.origen, col.mun.destino)
 destinos
 
 0.
-ggplot(filter(destinos, n>200)) +
+ggplot(filter(destinos, n>400)) +
   geom_bar(aes(x = reorder(municipios, n), y=n, fill = lugar), 
            stat = "identity", show.legend = FALSE) + facet_wrap(lugar~., scales = "free_y") +
   coord_flip(clip = 'off') + 
@@ -118,9 +118,11 @@ ggplot(filter(all.uber, n>=2)) +
 
 
 ### Gráfico municipios de origen por taxi libre
-ggplot(filter(municipio.transporte.o, Transporte == "Taxi Libre")) +
+ggplot(filter(municipio.transporte.o, Transporte == "Taxi Libre", n>100)) +
   geom_bar(aes(x = reorder(municipios_origen, n), y=n, fill = municipios_origen), stat = "identity", show.legend = FALSE) +
-  coord_flip(clip = 'off') + ggtitle("Municipios de origen Taxi Libre")
+  coord_flip(clip = 'off')  + ylab("N�mero de viajes") + 
+  labs(title="Municipios de origen Taxi Libre", subtitle = "CDMX") +
+  theme(axis.title.y=element_blank(), axis.ticks.x=element_blank())
 
 ### Gráfico municipios de origen por Taxi de Sitio
 ggplot(filter(municipio.transporte.o, Transporte == "Taxi de Sitio")) +

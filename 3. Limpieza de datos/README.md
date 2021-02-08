@@ -1,10 +1,5 @@
 # Limpieza de datos
 
-### Antes y despues de la limpieza de datos 
-
-```duración del viaje``` ```distancia del viaje``` ```tiempo de espera```
-![Tabla comparación](https://user-images.githubusercontent.com/71915068/107182730-e571f000-69a2-11eb-987d-5e3e1e018045.PNG)
-
 
 ### Obervaciones de los datos
 
@@ -16,9 +11,9 @@ Columnas que tienen valores atípicos:
 
 Sus valores máximos son extremadamente altos, por ejemplo:
 
-- El valor máximo de duración del viaje es ~ 276,182 min, lo que no puede ser cierto para ningún viaje.
-- El valor máximo de distancia del viaje es ~ 802.54 km, 
-- El timpo máximo de espera del viaje es 73,822,437 min que es imposible para los viajes.
+- El valor máximo de duración del viaje es ~ 276,182 min, esta cantidad equivale a un viaje de 191 dias, lo cuál es poco confiable.
+- El valor máximo de distancia del viaje es ~ 802.54 km, esto equivaldría a un viaje de la CDMX a Monterrey.
+- El timpo máximo de espera del viaje es 73,822,437 min, lo que no puede ser cierto para ningún viaje
 
 Con la limpieza mediante boxplots que nos ayuda a detectar outlayers, obtuvimos mejores resultados.
 
@@ -27,6 +22,13 @@ Con la limpieza mediante boxplots que nos ayuda a detectar outlayers, obtuvimos 
 - El timpo máximo de espera del viaje es 8.45 min.
 
 Estos valores ya son más utiles para trabajar con ellos.
+
+
+### Antes y despues de la limpieza de datos 
+
+```duración del viaje``` ```distancia del viaje``` ```tiempo de espera```
+![Tabla comparación](https://user-images.githubusercontent.com/71915068/107182730-e571f000-69a2-11eb-987d-5e3e1e018045.PNG)
+
 
 ### Codigo
 
