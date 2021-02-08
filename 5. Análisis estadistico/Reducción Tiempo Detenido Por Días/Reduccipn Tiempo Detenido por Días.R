@@ -57,3 +57,9 @@ esData <- filter(data, day_week == "ES")$wait_sec
 (Z.05 = qnorm(p=0.05, lower.tail = FALSE))
 (Z>=Z.05)
 # Se rechaza H_0
+
+# Se obtendrá el porcentaje de reducción
+dif = mES-mFS
+por <- dif/mES
+por
+# La refucción fue de un 8%
