@@ -53,42 +53,102 @@ viajesCostos$dist_meters <- as.numeric(viajesCostos$dist_meters)
 viajesCostos$trip_duration <- as.numeric(viajesCostos$trip_duration)
 ```
 
+Formula para calcular el Costo Total del viaje:
+
+```Costo Total = Tarifa Base + (Tarifa Distancia * Distancia recorrida) + (Tarifa Tiempo * Tiempo Espera )```
+
+*Se debe recordar hacer unitarias la distancia recorrida y el tiempo de espera, según sea el caso.*
+*Tiempo Espera se entiende como el tiempo en el que el automóvil estuvo detenido, por ejemplo semáforo o tráfico.*
 
 ```R
+#Formula para el calculo costo de viaje tomando en cuenta tarifas, tiempo y distancia
+viajesCostos <- viajesCostos %>% mutate(costoViaje = case_when( 
+  Transporte == "Radio Taxi" || Transporte == "Taxi Libre" || Transporte == "Taxi de Sitio" 
+  ~ viajesCostos$banderazo + ((viajesCostos$dist_meters/250)*viajesCostos$tarifa_dist) + ((viajesCostos$wait_sec/45)*viajesCostos$tarifa_tiempo),
+  Transporte == "UberX" || Transporte == "UberXL" || Transporte == "UberBlack" || Transporte == "UberSUV"
+  ~ viajesCostos$banderazo + ((viajesCostos$dist_meters/1000)*viajesCostos$tarifa_dist) + (viajesCostos$wait_sec/60*viajesCostos$tarifa_tiempo),
+  TRUE ~ 0))
+```
 
+Se crea una columna extra con los mismos valores de ```Costo Total``` y se sustituyen los que sean menor que la ```Tarifa Mínima``` correspondiente.
 
+```R
+#Duplicar la columna  de Costo Total
+viajesCostos$costoViaje2 <- viajesCostos$costoViaje
+
+#Sustituir el valor del Costo Total en caso de que sea menor que la Tarifa Mínima
+viajesCostos <- viajesCostos %>% mutate(costoViaje2 = case_when( 
+  costoViaje < tarifa_min ~ tarifa_min ,
+  TRUE ~ as.numeric(as.character(costoViaje2))))
+```
+
+Se calcula el precio por kilómetro. 
+Existen casos en los que la distancia es menor a 1km por lo que se crean discrepancias matemáticas, sin embargo, éstos datos no pueden ser eliminados simplemente por lo que se opta por redondear la distancia a 1km. 
+
+```R
+#Si la distancia es menor a 1km, se atribuye directamente costo total/km
+viajesCostos <- viajesCostos %>% mutate(costoKM = case_when( 
+  dist_km < 1 ~ costoViaje ,
+  TRUE ~ costoViaje/dist_km))
+
+#Si la distancia es menor a 1km, se atribuye directamente costo total/km
+viajesCostos <- viajesCostos %>% mutate(costoKM2 = case_when( 
+  dist_km < 1 ~ costoViaje2 ,
+  TRUE ~ costoViaje2/dist_km))
 
 ```
 
-```R
-
-
-
-```
+* Desglose de Tarifas 
 
 ```R
-
-
-
+#Graficar por categoría: costos viaje y por km y comparacion con y sin tarifa mínima
+viajesCostos %>%
+  group_by(Transporte) %>%
+  summarize(distancia=mean(dist_km), precio=mean(costoViaje), precioKM=mean(costoKM),
+            precio2=mean(costoViaje2), precioKM2=mean(costoKM2)) %>%
+    gather(key, value, -Transporte) %>% 
+      ggplot(aes(x=Transporte, y=value, fill=key)) +
+      geom_col(position = "dodge") + 
+      geom_text(aes(label=sprintf("%0.2f", round(value, digits = 2))), position=position_dodge(width=0.9), vjust=-0.25)
 ```
 
+![image](https://user-images.githubusercontent.com/72113099/107188810-f116e400-69ad-11eb-8283-69b2dd4c9159.png)
+
+Gracias a la gráfica se aprecia fácilmente el incremento gradual en las tarifas conforme se va subiendo en la escala de calidad en el servicio, confort, llegando hasta los niveles de amplios espacios y lujos.
+
+* Rangos de Costos de Viaje por Categoría
 ```R
+#Boxplot con los costos de viaje sin tomar en cuenta Tarifa Mínima
+ggplot(data = viajesCostos, aes(x=Transporte, y=costoViaje2)) + geom_boxplot() +
+  ggtitle("Costo de Viajes") + xlab("Transporte") + ylab("Costo Viaje ($)")
 
-
-
+#Boxplot con los costos de viaje tomando en cuenta Tarifa Mínima
+ggplot(data = viajesCostos, aes(x=Transporte, y=costoViaje2)) + geom_boxplot() +
+  ggtitle("Costo de Viajes") + xlab("Transporte") + ylab("Costo Viaje ($)")
 ```
 
+![image](https://user-images.githubusercontent.com/72113099/107249326-e0d82680-69f8-11eb-982a-b41f6aa0c4ed.png)
+
+![image](https://user-images.githubusercontent.com/72113099/107249412-f6e5e700-69f8-11eb-8ab7-fab865ea306f.png)
+
+En la segunda gráfica es donde se sustituyen los valores del Costo de Viaje que eran menores a la tarifa mínima de cada tipo de transporte por la parte de Uber, ya que por la parte de los Taxis, la tarifa mínima es la misma que la tarifa base.  
+* Promedios de Distancia, Costo Total y por Kilómetro 
 ```R
-
-
-
+#Graficar por categoría: costos viaje y por km y comparacion con y sin tarifa mínima
+viajesCostos %>%
+  group_by(Transporte) %>%
+  summarize(distancia=mean(dist_km), precio=mean(costoViaje), precioKM=mean(costoKM),
+            precio2=mean(costoViaje2), precioKM2=mean(costoKM2)) %>%
+    gather(key, value, -Transporte) %>% 
+      ggplot(aes(x=Transporte, y=value, fill=key)) +
+      geom_bar(stat="identity", position=position_dodge()) +
+      geom_text(aes(label=sprintf("%0.1f", round(value, digits = 1))), position=position_dodge(width=0.9), vjust=-0.25) + 
+      labs(title="Tarifas por Tipo de Transporte", subtitle = "CDMX (2016-2017)", y = "Costo ($)", color = "Tarifa", size=15) +
+      scale_fill_discrete(name = "Costos Total y /KM ", labels = c("Dist prom", "Costo prom sin Tarifa Min", "Costo prom sin Tarifa Min", "Costo/KM prom sin Tarifa Min", "Costo/KM prom con Tarifa Min"))
 ```
 
-```R
+![image](https://user-images.githubusercontent.com/72113099/107249639-272d8580-69f9-11eb-9fdd-88287b2cc27b.png)
+
+Al mirar los Costos por Kilómetro, 
 
 
-
-```
-
-
-![image](https://user-images.githubusercontent.com/72113099/107172668-8ce32880-698b-11eb-8ab5-fbe29dca3f25.png)
