@@ -21,6 +21,7 @@ ggplot(rutas.df, aes(x = trip_duration_hrs)) + geom_histogram(bins = 30)
 ggplot(rutas.df, aes(x = trip_duration_hrs)) + geom_boxplot()
 ```
 ![1 box](https://user-images.githubusercontent.com/71915068/107176059-f6673500-6993-11eb-932d-47bdc2dd8b84.png)
+
 ![1 table](https://user-images.githubusercontent.com/71915068/107180085-9b3a4000-699d-11eb-9254-26a9366cd674.PNG)
 
 ```R
