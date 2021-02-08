@@ -112,7 +112,7 @@ viajesCostos %>%
       geom_text(aes(label=sprintf("%0.2f", round(value, digits = 2))), position=position_dodge(width=0.9), vjust=-0.25)
 ```
 
-![image](https://user-images.githubusercontent.com/72113099/107188719-c3ca3600-69ad-11eb-9db6-1feaa6cfeb41.png)
+![image](https://user-images.githubusercontent.com/72113099/107188810-f116e400-69ad-11eb-8283-69b2dd4c9159.png)
 
 ```R
 
