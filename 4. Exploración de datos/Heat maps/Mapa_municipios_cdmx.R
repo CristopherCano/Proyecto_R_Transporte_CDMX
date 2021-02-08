@@ -1,20 +1,14 @@
-# Librerias utilizadas
+### Origen
+origen <- cdmx.rutas[,c("pickup_longitude","pickup_latitude")]
+head(origen)# Librerias utilizadas
 library(sf)                                 # Leer información geográfica
 library(leaflet)                            # Hacer mapas interactivos
 library(tidyverse)        
 library(knitr)
 
 #opts_chunk$set(fig.width=10, fig.height=8)
-# Manejo de Bases de Datos
-niveles <- function(x) levels(as.factor(x)) # Funcion propia para explorar categorias
-source("https://raw.githubusercontent.com/JuveCampos/DataVizRepo/master/R%20-%20leaflet/Mapas_zona_metropolitana/Norte.R")                      # Funcion para incluir rosa de los vientos en los mapas
-
 
 ## Leemos informacion 
-
-# Mapa de indicadores del Atlas de Riesgo de la CDMX
-mapa <- st_read("http://atlas.cdmx.gob.mx/datosAbiertos/INDICADORES_AGEB.geojson", quiet = T) %>% 
-  st_transform(crs = 4326)
 
 # Mapa de municipios de la CDMX
 mapa_municipios <- st_read("https://github.com/JuveCampos/Shapes_Resiliencia_CDMX_CIDE/raw/master/Zona%20Metropolitana/EdosZM.geojson", quiet = T) %>% 
@@ -24,89 +18,62 @@ mapa_municipios <- st_read("https://github.com/JuveCampos/Shapes_Resiliencia_CDM
 mapa_cdmx <- st_read("https://github.com/JuveCampos/Shapes_Resiliencia_CDMX_CIDE/raw/master/Zona%20Metropolitana/EstadosZMVM.geojson", quiet = T)[3,]
 
 
+# Cargamos la base de datos
+cdmx.rutas <- read.csv("cdmx_transporte_clean3.csv")
+
+# Origen
+origen <- cdmx.rutas[,c("pickup_longitude","pickup_latitude")]
+head(origen)
 
 
-# Modificamos Base
-mapa$ENTIDAD <- "Ciudad de México"
-mapa$ALCALDIA <- as.factor(mapa$ALCALDIA)
-levels(mapa$ALCALDIA)[c(2, 3, 5, 13, 16)] <- c("Benito Juárez", "Coyoacaán", "Cuauhtémoc", "Tláhuac", "Álvaro Obregón")
-
-# Modificamos base, para quedarnos con factores
-a <- lapply(mapa, class) %>% unlist()
-mapaFactor <- mapa[,a == "factor"]
+### Destino
+destino <- cdmx.rutas[,c("dropoff_longitude","dropoff_latitude")]
+head(destino)
 
 
-# Funcion para cambiar varias variables a la vez.
-intensidad <- function(a) a <- factor(a, levels = c("Muy Alto","Alto","Medio","Bajo", "Muy Bajo", "N/D"))
+municipios <- data.frame(mapa_municipios$NOM_MUN)
+lngt <- c(-99.17056, -99.16120, -99.27363,-99.08454,-99.06428,-99.03964,-99.26533,-99.02382,-99.21019,-99.00328,-99.21259,-99.11449,-99.18097,-99.16453,-99.17956,-99.09987	)
+lati <- c(19.47045, 19.33647,19.32747,19.46471,19.38963,19.37620, 19.30002,19.19283,19.38190,19.23393,19.29782,19.26594,19.37043,19.41097,19.43869,19.41256	)
 
-label = paste0("<b style = 'color: green;'>AGEB: ", mapaFactor$CVEGEO, "</b>", "<br>",  mapaFactor$ALCALDIA)
-
-paleta <- colorFactor("Blues", mapaFactor$PRECIPITAC, reverse = T)
-popup <- paste0(mapaFactor$PRECIPITAC)
-
-#18.980224, -99.507504
-#19.563719, -98.722426
+municipios$lngt <- lngt
+municipios$lati <- lati
 
 library(leaflet.extras)
 
-(map <- leaflet(mapaFactor, options = leafletOptions(zoomControl = T, minZoom = 10)) %>%    #
+(map <- leaflet(mapaFactor, options = leafletOptions(zoomControl = FALSE, minZoom = 10)) %>%
     addProviderTiles("CartoDB.Positron") %>% 
-    setMaxBounds(lng1 = -99.507504, lat1 = 18.980224, lng2 = -98.722426, lat2 = 19.60) %>% 
-    addPolygons(highlightOptions = highlightOptions(color = "white"),
-                color = "#444444", 
-                weight = 0.2, 
-                smoothFactor = 0.5, 
-                opacity = 1, 
-                fillOpacity = 0.8
-                ) ) %>%    #
+    setMaxBounds(lng1 = -99.507504, lat1 = 18.980224, lng2 = -98.722426, lat2 = 19.60) %>%
+    addPolygons(data = mapa_municipios, 
+                color = "#444444",
+                weight = 2, 
+                opacity = 0.4,
+                fill = F,
+                label = ~as.character(NOM_MUN)) %>%
     addPolygons(data = mapa_cdmx, 
                 color = "#444444",
                 weight = 4, 
                 opacity = 1,
                 fill = F
-    ) %>% 
+    )) %>% addMarkers(lng=origen[1:5500,1], lat=origen[1:5500,2],  clusterOptions = markerClusterOptions()) %>%
+  addMarkers(lng=destino[1:5500,1], lat=destino[1:5500,2],  clusterOptions = markerClusterOptions())
+  
+
+
+
+
+(map <- leaflet(mapaFactor, options = leafletOptions(zoomControl = FALSE, minZoom = 10)) %>%
+    addProviderTiles("CartoDB.Positron") %>% 
+    setMaxBounds(lng1 = -99.507504, lat1 = 18.980224, lng2 = -98.722426, lat2 = 19.60) %>%
     addPolygons(data = mapa_municipios, 
                 color = "#444444",
                 weight = 2, 
-                opacity = 1,
-                fill = F
-    ) %>%  # Add default OpenStreetMap map tiles
-  addCircleMarkers(lng=origen[1:5500,1], lat=origen[1:5500,2], radius = .5, opacity = 0.1) %>%
-  addCircleMarkers(lng=destino[1:5500,1], lat=destino[1:5500,2], radius = .5, color = "#ff325b", opacity = 0.1) 
-
-
-
-(map <- leaflet(mapaFactor, options = leafletOptions(zoomControl = FALSE, minZoom = 10)) %>%    #
-    addProviderTiles("CartoDB.Positron") %>% 
-    setMaxBounds(lng1 = -99.507504, lat1 = 18.980224, lng2 = -98.722426, lat2 = 19.60) %>% 
-    addPolygons(highlightOptions = highlightOptions(color = "white"),
-                color = "#444444", 
-                weight = 0.2, 
-                smoothFactor = 0.5, 
-                opacity = 1, 
-                popup = popup,
-                label = lapply(label, htmltools::HTML), 
-                fillOpacity = 0.8, 
-                fillColor = ~paleta(mapa$PRECIPITAC) ) %>%    #
+                opacity = 0.4,
+                fill = F,
+                label = ~as.character(NOM_MUN)) %>%
     addPolygons(data = mapa_cdmx, 
                 color = "#444444",
                 weight = 4, 
                 opacity = 1,
                 fill = F
-    ) %>% 
-    addPolygons(data = mapa_municipios, 
-                color = "#444444",
-                weight = 2, 
-                opacity = 1,
-                fill = F
-    ) %>% 
-    #addScaleBar(position = "bottomright") %>%   
-    addLegend(position = "bottomright", 
-              pal = paleta, 
-              values = mapa$PRECIPITAC,     #
-              title = "<div a style = 'color:red;'>Peligro:</div>Precipitacion", #
-              opacity = 1,
-              labFormat = labelFormat(suffix = " ")) )   %>%  # Add default OpenStreetMap map tiles
-  addCircleMarkers(lng=origen[1:5500,1], lat=origen[1:5500,2], radius = .5, opacity = 0.05) %>%
-  addCircleMarkers(lng=destino[1:5500,1], lat=destino[1:5500,2], radius = .5, color = "#ff325b", opacity = 0.05)
-
+    )) %>% addCircleMarkers(lng=origen[1:5500,1], lat=origen[1:5500,2], radius = .2, opacity = 0.05) %>%
+  addCircleMarkers(lng=destino[1:5500,1], lat=destino[1:5500,2], radius = .2, color = "#ff325b", opacity = 0.02)
