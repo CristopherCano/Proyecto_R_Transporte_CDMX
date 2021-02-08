@@ -502,7 +502,28 @@ delta = 0
 # Como se había planteado, los taxis toman viajes más largos que los ubers
 
 
+# 3.- Se desea probar que el promedio de velocidad promedio por viaje en ubers es mayor que 
+#     en taxis
+# Taxis : 1 ----- Ubers : 2
+# Obtención de los datos
 
+(n1 <- length(datosTaxiF$Vel_mts_seg))
+(x1 <- mean(datosTaxiF$Vel_mts_seg))
+(var1 <- var(datosTaxiF$Vel_mts_seg))
+
+(n2 <- length(datosUberF$Vel_mts_seg))
+(x2 <- mean(datosUberF$Vel_mts_seg))
+(var2 <- var(datosUberF$Vel_mts_seg))
+
+# Cálculo de los estadísticos
+# H_0: mu1-mu2 = 0 | H_1: mu1-mu2 < 0
+delta = 0
+(Z = (x1-x2-delta)/sqrt((var1/n1)+(var2/n2)))
+(Z.05 = -qnorm(p=0.05, lower.tail = FALSE))
+(Z>=Z.05)
+# Z >= Z.05: FALSE
+# No se rechaza H_0
+# Al parecer, los uber y taxis tienen la misma velocidad.
 
 
 
