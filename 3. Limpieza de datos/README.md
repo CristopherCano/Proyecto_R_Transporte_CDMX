@@ -11,25 +11,46 @@ summary(rutas.df)
 dim(rutas.df)
 ```
 
-Primer limpieza
+```Primer limpieza```
 ```R
 #Visualizamos el timepo, la distancia y tiempo de espera
 ggplot(rutas.df, aes(x = trip_duration_hrs)) + geom_histogram(bins = 30)
+```
+![1 hist duracion](https://user-images.githubusercontent.com/71915068/107176044-f2d3ae00-6993-11eb-96e2-955cf1d8ee1c.png)
+```R
 ggplot(rutas.df, aes(x = trip_duration_hrs)) + geom_boxplot()
+```
+![1 box](https://user-images.githubusercontent.com/71915068/107176059-f6673500-6993-11eb-932d-47bdc2dd8b84.png)
 
+```R
 ggplot(rutas.df, aes(x = dist_km)) + geom_histogram(bins = 30)
+```
+![2 box](https://user-images.githubusercontent.com/71915068/107176046-f36c4480-6993-11eb-8e9b-f845d1196cab.png)
+
+```R
 ggplot(rutas.df, aes(x = dist_km)) + geom_boxplot()
-
+```
+![2 his](https://user-images.githubusercontent.com/71915068/107176047-f404db00-6993-11eb-8676-ba9cdc25ef16.png)
+```R
 ggplot(rutas.df, aes(x = wait_min)) + geom_histogram(bins = 30)
+```
+![3 box](https://user-images.githubusercontent.com/71915068/107176048-f404db00-6993-11eb-8072-459fa8c43bfa.png)
+```R
 ggplot(rutas.df, aes(x = wait_min)) + geom_boxplot()
+```
 
+![3 hist](https://user-images.githubusercontent.com/71915068/107176049-f49d7180-6993-11eb-84b2-47b6ed9dfbeb.png)
+```R
 clean_time <- del.outlayers.trip_duration(rutas.df$trip_duration_hrs, rutas.df,trip_duration_hrs)
+```
+![3 hist](https://user-images.githubusercontent.com/71915068/107176049-f49d7180-6993-11eb-84b2-47b6ed9dfbeb.png)
 
 #clean_dist<-del.outlayers.dist_meters(clean_time$dist_km, clean_time, dist_km)
 
 clean_waitsec <- del.outlayers.wait_sec(clean_time$wait_min, clean_time, wait_min)
+```
 
-
+```R
 dim(clean_waitsec);
 
 #Visualizamos el timepo, la distancia y tiempo de espera
@@ -112,15 +133,19 @@ Limpieza Final
 clean_time_6 <- del.outlayers.trip_duration(clean_waitsec_5$trip_duration_hrs, clean_waitsec_5,trip_duration_hrs)
 dim(clean_waitsec_3)
 
+```R
 ggplot(clean_time_6, aes(x = trip_duration_hrs)) + geom_histogram(bins = 30)
 ggplot(clean_time_6, aes(x = trip_duration_hrs)) + geom_boxplot()
-
+```
+```R
 ggplot(clean_time_6, aes(x = dist_km)) + geom_histogram(bins = 30)
 ggplot(clean_time_6, aes(x = dist_km)) + geom_boxplot()
-
+```
+```R
 ggplot(clean_time_6, aes(x = trip_duration)) + geom_histogram(bins = 30)
 ggplot(clean_time_6, aes(x = trip_duration)) + geom_boxplot()
 ```
+
 Guardamos los datos
 ```R
 write.csv(clean_time_6, "cdmx_transporte_clean3.csv")
