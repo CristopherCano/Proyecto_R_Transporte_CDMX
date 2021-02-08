@@ -153,8 +153,13 @@ viajesCostos %>%
 
 Las gráficas de Taxis se mantienen igual ya que no hay cambios relacionados con la Tarifa Mínima. Con estas gráficas se confirma quue la distancia no es el único factor a considerar en el Costo del Viaje. La medición del tiempo en el que el coche está totalmente detenido o circula a muy bajas velocidades puede incrementar crucialmente el costo.
 
-* Promedio de Distancia, Costo Total y CostoKM por Día
+* Promedio de Distancia, Costo Total y CostoKM General por Día
 
 ![image](https://user-images.githubusercontent.com/72113099/107261406-e5a2d780-6a04-11eb-886c-4c2409c32a18.png)
+
+* Promedio de Distancia, Costo Total y CostoKM por Categoría y por Día
+
+![image](https://user-images.githubusercontent.com/72113099/107262798-9b225a80-6a06-11eb-9405-ec4af2f72e18.png)
+
 
 Para los conductores es útil saber qué día de la semana tiene una mayor posibilidad de tener más ingresos, y qué día es mejor descansar. 
