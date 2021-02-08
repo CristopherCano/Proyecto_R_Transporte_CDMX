@@ -3,7 +3,8 @@ library(sf)                                 # Leer información geográfica
 library(leaflet)                            # Hacer mapas interactivos
 library(tidyverse)        
 library(knitr)
-opts_chunk$set(fig.width=10, fig.height=8)
+
+#opts_chunk$set(fig.width=10, fig.height=8)
 # Manejo de Bases de Datos
 niveles <- function(x) levels(as.factor(x)) # Funcion propia para explorar categorias
 source("https://raw.githubusercontent.com/JuveCampos/DataVizRepo/master/R%20-%20leaflet/Mapas_zona_metropolitana/Norte.R")                      # Funcion para incluir rosa de los vientos en los mapas
@@ -108,3 +109,4 @@ library(leaflet.extras)
               labFormat = labelFormat(suffix = " ")) )   %>%  # Add default OpenStreetMap map tiles
   addCircleMarkers(lng=origen[1:5500,1], lat=origen[1:5500,2], radius = .5, opacity = 0.05) %>%
   addCircleMarkers(lng=destino[1:5500,1], lat=destino[1:5500,2], radius = .5, color = "#ff325b", opacity = 0.05)
+
