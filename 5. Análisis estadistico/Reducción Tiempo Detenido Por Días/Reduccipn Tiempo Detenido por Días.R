@@ -40,20 +40,20 @@ data <- mutate(data, day_week = fun(day,fs,"FS","ES"))
 fsData <- filter(data, day_week == "FS")$wait_sec
 esData <- filter(data, day_week == "ES")$wait_sec
 
-nFS <- length(fsData)
-nES <- length(esData)
+(nFS <- length(fsData))
+(nES <- length(esData))
 
-mFS <- mean(fsData)
-mES <- mean(esData)
+(mFS <- mean(fsData))
+(mES <- mean(esData))
 
-vFS <- var(fsData)
-vES <- var(esData)
+(vFS <- var(fsData))
+(vES <- var(esData))
 
 # H_0: mES-mFS = 0
 # H_1: mES-mFS > 0 (El promedio en ES es mayor que en FS)
 
 
-Z = (mES-mFS)/sqrt((vES/nES)+(vFS/nFS))
-Z.05 = qnorm(p=0.05, lower.tail = FALSE)
+(Z = (mES-mFS)/sqrt((vES/nES)+(vFS/nFS)))
+(Z.05 = qnorm(p=0.05, lower.tail = FALSE))
 (Z>=Z.05)
 # Se rechaza H_0
