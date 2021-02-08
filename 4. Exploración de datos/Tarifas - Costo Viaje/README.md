@@ -114,11 +114,22 @@ viajesCostos %>%
 
 ![image](https://user-images.githubusercontent.com/72113099/107188810-f116e400-69ad-11eb-8283-69b2dd4c9159.png)
 
+Costos de Viaje por Categoría
 ```R
+#Boxplot con los costos de viaje sin tomar en cuenta Tarifa Mínima
+ggplot(data = viajesCostos, aes(x=Transporte, y=costoViaje2)) + geom_boxplot() +
+  ggtitle("Costo de Viajes") + xlab("Transporte") + ylab("Costo Viaje ($)")
 
-
-
+#Boxplot con los costos de viaje tomando en cuenta Tarifa Mínima
+ggplot(data = viajesCostos, aes(x=Transporte, y=costoViaje2)) + geom_boxplot() +
+  ggtitle("Costo de Viajes") + xlab("Transporte") + ylab("Costo Viaje ($)")
 ```
+
+![image](https://user-images.githubusercontent.com/72113099/107222845-0d7d4580-69db-11eb-99c1-c4dfb9adb06f.png)
+
+![image](https://user-images.githubusercontent.com/72113099/107222906-1d952500-69db-11eb-872a-e5d0bd9907f0.png)
+
+En la segunda gráfica es donde se sustituyen los valores del Costo de Viaje que eran menores a la tarifa mínima de cada tipo de transporte por la parte de Uber, ya que por la parte de los Taxis, la tarifa mínima es la misma que la tarifa base.  
 
 ```R
 
