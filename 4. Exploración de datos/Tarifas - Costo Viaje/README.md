@@ -63,11 +63,11 @@ Formula para calcular el Costo Total del viaje:
 ```R
 #Formula para el calculo costo de viaje tomando en cuenta tarifas, tiempo y distancia
 viajesCostos <- viajesCostos %>% mutate(costoViaje = case_when( 
-  Transporte == "Radio Taxi" || Transporte == "Taxi Libre" || Transporte == "Taxi de Sitio" 
+  Transporte %in% "Radio Taxi" | Transporte %in% "Taxi Libre" | Transporte %in% "Taxi de Sitio"
   ~ viajesCostos$banderazo + ((viajesCostos$dist_meters/250)*viajesCostos$tarifa_dist) + ((viajesCostos$wait_sec/45)*viajesCostos$tarifa_tiempo),
-  Transporte == "UberX" || Transporte == "UberXL" || Transporte == "UberBlack" || Transporte == "UberSUV"
+  Transporte %in% "UberX" | Transporte %in% "UberXL" | Transporte %in% "UberBlack" | Transporte %in% "UberSUV"
   ~ viajesCostos$banderazo + ((viajesCostos$dist_meters/1000)*viajesCostos$tarifa_dist) + (viajesCostos$wait_sec/60*viajesCostos$tarifa_tiempo),
-  TRUE ~ 0))
+  TRUE ~ 22))
 ```
 
 Se crea una columna extra con los mismos valores de ```Costo Total``` y se sustituyen los que sean menor que la ```Tarifa Mínima``` correspondiente.
@@ -131,8 +131,10 @@ ggplot(data = viajesCostos, aes(x=Transporte, y=costoViaje2)) + geom_boxplot() +
 
 ![image](https://user-images.githubusercontent.com/72113099/107249412-f6e5e700-69f8-11eb-8ab7-fab865ea306f.png)
 
-En la segunda gráfica es donde se sustituyen los valores del Costo de Viaje que eran menores a la tarifa mínima de cada tipo de transporte por la parte de Uber, ya que por la parte de los Taxis, la tarifa mínima es la misma que la tarifa base.  
-* Promedios de Distancia, Costo Total y por Kilómetro 
+En la segunda gráfica es donde se sustituyen los valores del Costo de Viaje por los valores de la tarifa mínima en caso de que esta sea menor segun cada tipo de transporte por parte de Uber, ya que por la parte de los Taxis, la tarifa mínima es la misma que la tarifa base.  
+Como se puede observar, la mayoría de los costos calculados están por debajo de la tarifa mínima.
+
+* Promedios de Distancia, Costo Total y Costos/Kilómetro por Categoría
 ```R
 #Graficar por categoría: costos viaje y por km y comparacion con y sin tarifa mínima
 viajesCostos %>%
@@ -144,11 +146,47 @@ viajesCostos %>%
       geom_bar(stat="identity", position=position_dodge()) +
       geom_text(aes(label=sprintf("%0.1f", round(value, digits = 1))), position=position_dodge(width=0.9), vjust=-0.25) + 
       labs(title="Tarifas por Tipo de Transporte", subtitle = "CDMX (2016-2017)", y = "Costo ($)", color = "Tarifa", size=15) +
-      scale_fill_discrete(name = "Costos Total y /KM ", labels = c("Dist prom", "Costo prom sin Tarifa Min", "Costo prom sin Tarifa Min", "Costo/KM prom sin Tarifa Min", "Costo/KM prom con Tarifa Min"))
+      scale_fill_discrete(name = "Costos Total y /KM ", labels = c("Dist prom", "Costo prom sin Tarifa Min", "Costo prom con Tarifa Min", "Costo/KM prom sin Tarifa Min", "Costo/KM prom con Tarifa Min"))
 ```
 
-![image](https://user-images.githubusercontent.com/72113099/107249639-272d8580-69f9-11eb-9fdd-88287b2cc27b.png)
+![image](https://user-images.githubusercontent.com/72113099/107256355-023c1100-69ff-11eb-9b82-9edc0ac06fe0.png)
 
-Al mirar los Costos por Kilómetro, 
+Las gráficas de Taxis se mantienen igual ya que no hay cambios relacionados con la Tarifa Mínima. Con estas gráficas se confirma quue la distancia no es el único factor a considerar en el Costo del Viaje. La medición del tiempo en el que el coche está totalmente detenido o circula a muy bajas velocidades puede incrementar crucialmente el costo.
+
+* Promedio de Distancia, Costo Total y CostoKM General por Día (General y Cateogría)
+```R
+#Grafica por dia de semana: costos viaje y por km y comparación con y sin tarifa mínima General
+viajesCostos %>%
+  group_by(pickup.diaSemana) %>%
+  summarize(distancia=mean(dist_meters/1000), precio=mean(costoViaje), precioKM=precio/mean(dist_meters/1000),
+            precio2=mean(costoViaje2), precioKM2=precio2/mean(dist_meters/1000)) %>%
+  gather(key, value, -pickup.diaSemana) %>% 
+  ggplot(aes(x=pickup.diaSemana, y=value, fill=key)) +
+  geom_col(position = "dodge") + 
+  geom_text(aes(label=sprintf("%0.1f", round(value, digits = 1))), position=position_dodge(width=0.9), vjust=-0.25)+
+  labs(title="Tarifas Generales por Día", subtitle = "CDMX (2016-2017)", y = "Costo ($)", color = "Tarifa", size=15) +
+  scale_fill_discrete(name = "Costos Total y /KM ", labels = c("Dist prom", "Costo prom sin Tarifa Min", "Costo prom con Tarifa Min",
+                                                               "Costo/KM prom sin Tarifa Min", "Costo/KM prom con Tarifa Min"))+
+  xlab("Dia de la Semana")
 
 
+#Grafica por dia de semana: costos viaje y por km y comparación con y sin tarifa mínima por Categoría
+viajesCostos %>%
+     group_by(pickup.diaSemana, Transporte) %>%
+     summarize(distancia=mean(dist_meters/1000), precio=mean(costoViaje), precioKM=precio/mean(dist_meters/1000),
+               precio2=mean(costoViaje2), precioKM2=precio2/mean(dist_meters/1000)) %>%
+   ggplot(aes(factor(pickup.diaSemana), precio, fill = Transporte)) + 
+       geom_bar(stat="identity", position = "dodge") + 
+       scale_fill_brewer(palette = "Set1")+
+       labs(title="Tarifas Generales por Día", subtitle = "CDMX (2016-2017)", y = "Costo ($)", size=15) +
+       xlab("Dia de la Semana")
+```
+
+![image](https://user-images.githubusercontent.com/72113099/107261406-e5a2d780-6a04-11eb-886c-4c2409c32a18.png)
+
+
+
+![image](https://user-images.githubusercontent.com/72113099/107262798-9b225a80-6a06-11eb-9405-ec4af2f72e18.png)
+
+
+Para los conductores es útil saber qué día de la semana tiene una mayor posibilidad de tener más ingresos, y qué día es mejor descansar. 

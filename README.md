@@ -2,13 +2,19 @@
 
 ![cdmx_map](https://user-images.githubusercontent.com/71915068/106938254-5d5ec280-66e4-11eb-888b-04479511535f.png)
 
-[1. Bases de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/1.%20Bases%20de%20datos)
-- [Tarifas](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/1.%20Bases%20de%20datos/Tarifas/README.md)
-- Viajes
+## Contenido
 
-[2. Extracción de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/2.%20Extracci%C3%B3n%20de%20datos/README.md)\
-[3. Limpieza de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/3.%20Limpieza%20de%20datos/README.md)\
-[4. Exploración de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/4.%20Exploraci%C3%B3n%20de%20datos)
+#### [1. Bases de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/1.%20Bases%20de%20datos)
+- [Tarifas](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/1.%20Bases%20de%20datos/Tarifas/README.md)
+- [Viajes](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/1.%20Bases%20de%20datos/Viajes)
+
+#### 2. Extracción de datos
+- [Reverse geocoding](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/2.%20Extracci%C3%B3n%20de%20datos/README.md)
+
+#### 3. Limpieza de datos
+- [Eliminación de outlayers](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/3.%20Limpieza%20de%20datos/README.md)
+
+#### [4. Exploración de datos](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/4.%20Exploraci%C3%B3n%20de%20datos)
 
 - [Heat maps](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Heat%20maps/README.md)
 - [Tarifas y Costos Finales](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Tarifas%20-%20Costo%20Viaje/README.md)
@@ -16,7 +22,22 @@
 - [Análisis de Distancias, Tiempos de espera en el trafico y Velocidad](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Velocidad-Distancia-Tiempo%20Detenido/README.md)
 - [Análisis de Viajes y Tráfico](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Viajes-Tr%C3%A1fico/README.md)
 
-[5. Análisis estadistico]()
-- [Reduccipn tiempo detenido por días](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/5.%20An%C3%A1lisis%20estadistico/Reducci%C3%B3n%20Tiempo%20Detenido%20Por%20D%C3%ADas/README.md)
+#### [5. Análisis estadistico](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/5.%20An%C3%A1lisis%20estadistico)
+- [Reducción tiempo detenido por días](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/5.%20An%C3%A1lisis%20estadistico/Reducci%C3%B3n%20Tiempo%20Detenido%20Por%20D%C3%ADas/README.md)
 - [Análisis de Distancias, Tiempos de espera en el trafico y Velocidad](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/5.%20An%C3%A1lisis%20estadistico/Velocidad-Distancia-Tiempo%20Detenido/README.md)
 
+## Descripción de la base de datos
+
+### Información
+Este conjunto de datos se recopiló utilizando la aplicación EC Taxímetro. Una herramienta fácil de usar desarrollada para comparar tarifas, que le brinda al usuario una tarifa precisa basada en GPS para calcular el costo del viaje en taxi. Debido a la capacidad de verificar que se le cobre de manera justa, nuestra aplicación es muy popular en varias ciudades. Alentamos a nuestros usuarios a que nos envíen URL con las tarifas de taxi / transporte en sus ciudades para seguir aumentando nuestra base de datos.
+
+### Acerca de los datos
+Los datos se recopilarón desde junio de 2016 hasta el 20 de julio de 2017. Los datos no están completamente limpios, muchos usuarios olvidan apagar el taxímetro cuando terminan la ruta.
+
+- La aplicación obtiene las tarifas disponibles para su ubicación en función de su GPS
+- Los usuarios pueden iniciar un taxímetro en su propio teléfono y verificar que se les cobre de manera justa
+- Se muestra al usuario información útil durante el viaje: velocidad, tiempo de espera, distancia, actualización de GPS, precisión de GPS, rango de error
+- Es posible navegar por varias ciudades y países cuyas tarifas están disponibles para su uso. Si una tarifa no está en la aplicación, ahora es más fácil que nunca avisarnos gracias a Questbee Apps.
+
+### Ubicación
+CDMX
