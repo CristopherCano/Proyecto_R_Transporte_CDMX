@@ -444,3 +444,74 @@ datosUberF<-filter(datosUber, wait_sec <= 42) #
 
 summary(datosTaxiF$Vel_km_hr);
 summary(datosUberF$Vel_km_hr);
+
+###############################################################################
+###############################################################################
+########################### PRUEBAS DE HIPÓTESIS ##############################
+###############################################################################
+###############################################################################
+
+# 1.- Se desea probar que el promedio de tiempo detenido en el viaje es menor en 
+#     viajes con Ubers que con Taxis
+
+# Taxis : 1 ----- Ubers : 2
+# Obtención de los datos
+
+(n1 <- length(datosTaxiF$wait_sec))
+(x1 <- mean(datosTaxiF$wait_sec))
+(var1 <- var(datosTaxiF$wait_sec))
+
+(n2 <- length(datosUberF$wait_sec))
+(x2 <- mean(datosUberF$wait_sec))
+(var2 <- var(datosUberF$wait_sec))
+
+# Cálculo de los estadísticos
+# H_0: mu1-mu2 = 0 | H_1: mu1-mu2 > 0
+delta = 0
+(Z = (x1-x2-delta)/sqrt((var1/n1)+(var2/n2)))
+(Z.05 = qnorm(p=0.05, lower.tail = FALSE))
+(Z>=Z.05)
+# Z >= Z.05: TRUE
+# Se rechaza H_0
+# Como se había planteado, los uber pasan menos tiempo detenidos durante el trayecto
+
+######################################################################################
+
+# 2.- Se desea probar que el promedio de distancias recorridad por taxis es mayor
+#     al de los uber
+
+# Taxis : 1 ----- Ubers : 2
+# Obtención de los datos
+
+(n1 <- length(datosTaxiF$dist_meters))
+(x1 <- mean(datosTaxiF$dist_meters))
+(var1 <- var(datosTaxiF$dist_meters))
+
+(n2 <- length(datosUberF$dist_meters))
+(x2 <- mean(datosUberF$dist_meters))
+(var2 <- var(datosUberF$dist_meters))
+
+# Cálculo de los estadísticos
+# H_0: mu1-mu2 = 0 | H_1: mu1-mu2 < 0
+delta = 0
+(Z = (x1-x2-delta)/sqrt((var1/n1)+(var2/n2)))
+(Z.05 = -qnorm(p=0.05, lower.tail = FALSE))
+(Z>=Z.05)
+# Z >= Z.05: TRUE
+# Se rechaza H_0
+# Como se había planteado, los taxis toman viajes más largos que los ubers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
