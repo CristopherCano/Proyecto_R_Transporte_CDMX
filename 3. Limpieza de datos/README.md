@@ -5,6 +5,31 @@
 ```duración del viaje``` ```distancia del viaje``` ```tiempo de espera```
 ![Tabla comparación](https://user-images.githubusercontent.com/71915068/107182730-e571f000-69a2-11eb-987d-5e3e1e018045.PNG)
 
+
+### Obervaciones de los datos
+
+Columnas que tienen valores atípicos: 
+
+- trip_duration,
+- dist_meters, 
+- wait_sec. 
+
+Sus valores máximos son extremadamente altos, por ejemplo:
+
+- El valor máximo de duración del viaje es ~ 276,182 min, lo que no puede ser cierto para ningún viaje.
+- El valor máximo de distancia del viaje es ~ 802.54 km, 
+- El timpo máximo de espera del viaje es 73,822,437 min que es imposible para los viajes.
+
+Con la limpieza mediante boxplots que nos ayuda a detectar outlayers, obtuvimos mejores resultados.
+
+- El valor máximo de duración del viaje es ~ 23 min.
+- El valor máximo de distancia del viaje es ~ 8.44 km.
+- El timpo máximo de espera del viaje es 8.45 min.
+
+Estos valores ya son más utiles para trabajar con ellos.
+
+### Codigo
+
 ```R
 library(ggplot2)
 library(dplyr)
