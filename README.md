@@ -18,7 +18,7 @@
 - [Análisis de Distancias, Tiempos de espera en el trafico y Velocidad](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Velocidad-Distancia-Tiempo%20Detenido/README.md)
 - [Análisis de Viajes y Tráfico](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/4.%20Exploraci%C3%B3n%20de%20datos/Viajes-Tr%C3%A1fico/README.md)
 
-#### [5. Análisis estadistico]
+#### [5. Análisis estadistico](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/5.%20An%C3%A1lisis%20estadistico)
 - [Reduccipn tiempo detenido por días](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/5.%20An%C3%A1lisis%20estadistico/Reducci%C3%B3n%20Tiempo%20Detenido%20Por%20D%C3%ADas/README.md)
 - [Análisis de Distancias, Tiempos de espera en el trafico y Velocidad](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/5.%20An%C3%A1lisis%20estadistico/Velocidad-Distancia-Tiempo%20Detenido/README.md)
 
