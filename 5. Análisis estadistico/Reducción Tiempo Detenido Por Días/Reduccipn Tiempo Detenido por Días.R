@@ -7,7 +7,7 @@ library(xts)
 library(ggplot2)
 
 # Preparación de los datos
-data <- read.csv("../../1. Bases de datos/cdmx_transporte_clean3.csv")
+data <- read.csv("../../1. Bases de datos/Viajes/cdmx_transporte_clean3.csv")
 data <- mutate(data, date = as.Date(pickup_date, "%d/%m/%Y"))
 data <- filter(data, wait_sec <= 3600)
 data <- select(data,date,wait_sec)
@@ -36,9 +36,9 @@ fun <- function(x,namestc,name1,name2)
   y
 }
 
-data <- mutate(data, day_week = fun(day,fs,"FS","ES"))
-fsData <- filter(data, day_week == "FS")$wait_sec
-esData <- filter(data, day_week == "ES")$wait_sec
+data <- mutate(data, day_week = fun(day,fs,"Fin de Semana","Entre Semana"))
+fsData <- filter(data, day_week == "Fin de Semana")$wait_sec
+esData <- filter(data, day_week == "Entre Semana")$wait_sec
 
 (nFS <- length(fsData))
 (nES <- length(esData))
@@ -63,3 +63,14 @@ dif = mES-mFS
 por <- dif/mES
 por
 # La refucción fue de un 8%
+
+
+
+graf <- data %>% group_by(day_week) %>% summarise(time = mean(wait_sec))
+graf
+ggplot(data=graf, aes(x=day_week, y=time, fill = day_week))+
+  geom_bar(stat = 'identity')+
+  labs (title = "Tiempo detenido promedio",
+        x = "",
+        y = "Tiempo en segundos")+
+  theme_minimal()
