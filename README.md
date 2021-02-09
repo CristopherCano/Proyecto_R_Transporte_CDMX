@@ -25,6 +25,7 @@
 #### [5. Análisis estadistico](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/tree/main/5.%20An%C3%A1lisis%20estadistico)
 - [Reducción tiempo detenido por días](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/5.%20An%C3%A1lisis%20estadistico/Reducci%C3%B3n%20Tiempo%20Detenido%20Por%20D%C3%ADas/README.md)
 - [Análisis de Distancias, Tiempos de espera en el trafico y Velocidad](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/5.%20An%C3%A1lisis%20estadistico/Velocidad-Distancia-Tiempo%20Detenido/README.md)
+- [Prueba de Hipotesis - Costos (UberX - TaxiLibre)](https://github.com/CristopherCano/Proyecto_R_Transporte_CDMX/blob/main/5.%20Análisis%20estadistico/PruebaHipotesis%20-%20Costos/README.md)
 
 ## Descripción de la base de datos
 
