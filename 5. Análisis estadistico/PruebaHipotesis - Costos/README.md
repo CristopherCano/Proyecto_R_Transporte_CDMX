@@ -2,6 +2,9 @@
 
 #### Método: Prueba de hipótesis para la diferencia de medias (μ1−μ2)
 
+            H0: μ1 − μ2 = 0 
+            H1: μ1 − μ2 ≠ 0
+
 * Preparar variables para su uso
 ```R
 #Cargar archivos
@@ -58,9 +61,11 @@ Resultado:
 ```
 
 ```R
+#P-value
+costo.t.test$p.value  # 1.359603e-24
 
+#Diferencia de medias
+round(costo.t.test$estimate[1] - costo.t.test$estimate[2], 1) # 9.4 
 ```
 
-```R
-
-```
+`P-value` es muy pequeño, por lo tanto se concluye que sí hay diferencias significativas, ésto puede ser corroborado al mirar los boxplots presentados.
