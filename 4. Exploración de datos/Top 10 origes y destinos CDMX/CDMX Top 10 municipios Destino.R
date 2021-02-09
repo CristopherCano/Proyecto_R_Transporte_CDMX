@@ -15,6 +15,25 @@ municipios.cdmx <- read.csv("cdmx_transporte_clean3.csv", stringsAsFactors=T)
     group_by(municipios_destino, Transporte) %>%
     count(municipios_destino,sort = TRUE))
 
+###top tiempo de espera misma alcaldia
+mun.time <- select(cdmx.rutas, municipios_origen, municipios_destino, wait_sec)
+mun.same<-filter(mun.time, municipios_origen == municipios_destino)
+
+count.same.mun<-mun.same %>% group_by(municipios_origen)  %>%
+  count(municipios_destino, sort = TRUE)
+
+write.csv(count.same.mun, "viajessinsalirmun.csv")
+
+# uber tiempo de espera
+(unber.mun<-filter(mun.same, wait_sec > 172.19) %>% group_by(municipios_origen)  %>%
+  count(municipios_destino, sort = TRUE))
+
+write.csv(unber.mun, "tiempodeesperamun.csv")
+
+(unber.mun<-filter(mun.same, wait_sec > 0) %>% group_by(municipios_origen)  %>%
+    count(municipios_destino, sort = TRUE))
+
+
 0.
 ### Gráfico municipios de destino por tipo de transporte
 ggplot(municipio.transporte.d) +
